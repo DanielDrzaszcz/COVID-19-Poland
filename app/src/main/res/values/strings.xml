@@ -1,4 +1,8 @@
 <resources>
-    <string name="app_name">COVID19Poland</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">COVID-19 Poland</string>
+    <string name="all_cases">Przypadki wszystkie</string>
+    <string name="today_cases">Przypadki dzisiaj</string>
+    <string name="all_cured">Przypadki wyleczone wszystkie</string>
+    <string name="all_deaths">Przypadki śmiertelne wszystkie</string>
+    <string name="today_deaths">Przypadki śmiertelne dzisiaj</string>
 </resources>
