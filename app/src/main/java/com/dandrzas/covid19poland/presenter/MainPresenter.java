@@ -12,7 +12,7 @@ import io.reactivex.schedulers.Schedulers;
 public class MainPresenter implements MainPresenterIF {
     private MainActivityIF view;
     private DataRepositoryIF dataRepository = DataRepository.getInstance();
-    private String[] countersData = new String[5];
+    //private String[] countersData = new String[5];
     private Observer<Integer> covid19DataObserver = new DataObserver();
 
     public MainPresenter(MainActivityIF view) {
@@ -21,30 +21,31 @@ public class MainPresenter implements MainPresenterIF {
 
     @Override
     public void refreshData() {
-        dataRepository.getData()
+        dataRepository.refreshAndGetData()
                 .subscribeOn(Schedulers.newThread()).
                 observeOn(AndroidSchedulers.mainThread()).
                 subscribe(covid19DataObserver);
     }
 
     private class DataObserver implements Observer<Integer> {
-        int counter;
+        int i;
+        String[] countersData = new String[5];
 
         @Override
         public void onSubscribe(Disposable d) {
             Log.d("MainPresenter RxTest: ", "onSubscribe");
             view.clearCountersData();
             view.setProgressBarsVisibility(true);
-            counter = 0;
+            i = 0;
         }
 
         @Override
         public void onNext(Integer integer) {
             Log.d("MainPresenter RxTest: ", "onNext " + integer);
-            if(counter<countersData.length){
-                countersData[counter] = integer.toString();
+            if(i <countersData.length){
+                countersData[i] = integer.toString();
             }
-            counter++;
+            i++;
         }
 
         @Override

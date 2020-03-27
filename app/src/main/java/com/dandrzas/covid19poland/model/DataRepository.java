@@ -1,6 +1,7 @@
 package com.dandrzas.covid19poland.model;
 
 import android.util.Log;
+
 import com.dandrzas.covid19poland.remotedatasource.NetworkHandler;
 import com.dandrzas.covid19poland.remotedatasource.NetworkHandlerIF;
 
@@ -14,9 +15,9 @@ import io.reactivex.schedulers.Schedulers;
 
 public class DataRepository implements DataRepositoryIF {
     private static final DataRepository ourInstance = new DataRepository();
-    private int[] covid19Data = new int[5];
+    private Covid19Data covid19Data = new Covid19Data();
     private Observable<Integer> covid19DataEmitter = Observable.create(new Covid19DataEmitter());
-    private Observer<Integer> covid19DataObserver = new DataObserver();
+    private Observer<Covid19Data> covid19DataObserver = new DataObserver();
     private NetworkHandlerIF networkHandlerInstance = NetworkHandler.getInstance();
     private ObservableEmitter<Integer> subscribedEmitter;
 
@@ -28,7 +29,7 @@ public class DataRepository implements DataRepositoryIF {
     }
 
     @Override
-    public Observable<Integer> getData() {
+    public Observable<Integer> refreshAndGetData() {
         networkHandlerInstance.downloadData().
                 subscribeOn(Schedulers.newThread()).
                 observeOn(AndroidSchedulers.mainThread()).
@@ -45,23 +46,22 @@ public class DataRepository implements DataRepositoryIF {
 
     }
 
-    private class DataObserver implements Observer<Integer> {
-        int counter;
+    private class DataObserver implements Observer<Covid19Data> {
 
         @Override
         public void onSubscribe(Disposable d) {
             Log.d("DataRepository RxTest: ", "onSubscribe");
-            counter = 0;
         }
 
         @Override
-        public void onNext(Integer integer) {
-            Log.d("DataRepository RxTest: ", "onNext " + integer);
-            if(counter<covid19Data.length){
-                covid19Data[counter] = integer;
-                subscribedEmitter.onNext(covid19Data[counter]);
-            }
-            counter++;
+        public void onNext(Covid19Data data) {
+            Log.d("DataRepository RxTest: ", "onNext ");
+            covid19Data = data;
+            subscribedEmitter.onNext(covid19Data.getCasesAll());
+            subscribedEmitter.onNext(covid19Data.getCasesToday());
+            subscribedEmitter.onNext(covid19Data.getCuredAll());
+            subscribedEmitter.onNext(covid19Data.getDeathsAll());
+            subscribedEmitter.onNext(covid19Data.getDeathsToday());
         }
 
         @Override
