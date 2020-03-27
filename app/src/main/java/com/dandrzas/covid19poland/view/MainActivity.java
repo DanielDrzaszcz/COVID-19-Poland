@@ -3,6 +3,7 @@ package com.dandrzas.covid19poland.view;
 import android.os.Bundle;
 
 import com.dandrzas.covid19poland.R;
+import com.dandrzas.covid19poland.remotedatasource.NetworkHandler;
 import com.dandrzas.covid19poland.presenter.MainPresenter;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityIF{
         for(ProgressBar progressBar:progressBars) {
             progressBar.setVisibility(View.INVISIBLE);
         }
+        NetworkHandler.createInstance(this);
         presenter = new MainPresenter(this);
         presenter.refreshData();
     }
@@ -81,6 +83,4 @@ public class MainActivity extends AppCompatActivity implements MainActivityIF{
             }
         }
     }
-
-
 }
