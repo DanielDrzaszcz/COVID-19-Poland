@@ -1,5 +1,7 @@
 package com.dandrzas.covid19poland.model;
 
+import io.reactivex.Observable;
+
 public interface DataRepositoryIF {
-    int[] getData();
+    Observable<Integer> getData();
 }

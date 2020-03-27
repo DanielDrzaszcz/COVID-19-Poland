@@ -57,6 +57,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityIF{
     }
 
     @Override
+    public void clearCountersData() {
+        for (int i=0; i<textViewsCounters.size(); i++) {
+            textViewsCounters.get(i).setText("");
+        }
+    }
+
+    @Override
     public void setCountersError() {
         for (int i=0; i<textViewsCounters.size(); i++) {
             textViewsCounters.get(i).setText("Error");
