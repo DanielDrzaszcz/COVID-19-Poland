@@ -12,7 +12,6 @@ import io.reactivex.schedulers.Schedulers;
 public class MainPresenter implements MainPresenterIF {
     private MainActivityIF view;
     private DataRepositoryIF dataRepository = DataRepository.getInstance();
-    //private String[] countersData = new String[5];
     private Observer<Integer> covid19DataObserver = new DataObserver();
 
     public MainPresenter(MainActivityIF view) {
@@ -59,7 +58,6 @@ public class MainPresenter implements MainPresenterIF {
         public void onComplete() {
             Log.d("MainPresenter RxTest: ", "onComplete");
             view.setProgressBarsVisibility(false);
-            view.clearCountersData();
             view.setCountersData(countersData);
         }
     }
