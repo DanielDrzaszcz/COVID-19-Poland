@@ -19,11 +19,16 @@ public class MainPresenter implements MainPresenterIF {
     }
 
     @Override
-    public void refreshData() {
-        dataRepository.refreshAndGetData()
-                .subscribeOn(Schedulers.newThread()).
-                observeOn(AndroidSchedulers.mainThread()).
-                subscribe(covid19DataObserver);
+    public void refreshData(boolean isInternetConnection) {
+       if(isInternetConnection) {
+           dataRepository.refreshAndGetData()
+                   .subscribeOn(Schedulers.newThread()).
+                   observeOn(AndroidSchedulers.mainThread()).
+                   subscribe(covid19DataObserver);
+       }
+       else{
+           view.showConnectionAlert();
+       }
     }
 
     private class DataObserver implements Observer<Integer> {

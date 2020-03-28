@@ -5,4 +5,5 @@ public interface MainActivityIF {
      void clearCountersData();
      void setCountersError();
      void setProgressBarsVisibility(boolean visibilityEnable);
+     void showConnectionAlert();
 }

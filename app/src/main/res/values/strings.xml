@@ -5,4 +5,7 @@
     <string name="all_cured">Przypadki wyleczone wszystkie</string>
     <string name="all_deaths">Przypadki śmiertelne wszystkie</string>
     <string name="today_deaths">Przypadki śmiertelne dzisiaj</string>
+    <string name="download_error">Błąd pobierania</string>
+    <string name="connection_dialog_title">Błąd</string>
+    <string name="connection_dialog_message">Brak dostępu do Internetu</string>
 </resources>
