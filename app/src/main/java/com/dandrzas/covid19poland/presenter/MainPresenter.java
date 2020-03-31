@@ -1,69 +1,64 @@
 package com.dandrzas.covid19poland.presenter;
 
 import android.util.Log;
-import com.dandrzas.covid19poland.model.DataRepository;
-import com.dandrzas.covid19poland.model.DataRepositoryIF;
+import com.dandrzas.covid19poland.model.domain.Covid19Data;
+import com.dandrzas.covid19poland.model.remotedatasource.RemoteDataSourceIF;
 import com.dandrzas.covid19poland.view.MainActivityIF;
+import java.util.ArrayList;
 import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
+
 public class MainPresenter implements MainPresenterIF {
     private MainActivityIF view;
-    private DataRepositoryIF dataRepository = DataRepository.getInstance();
-    private Observer<Integer> covid19DataObserver = new DataObserver();
+    private RemoteDataSourceIF remoteDataSource;
 
-    public MainPresenter(MainActivityIF view) {
+    public MainPresenter(MainActivityIF view, RemoteDataSourceIF remoteDataSource) {
         this.view = view;
+        this.remoteDataSource = remoteDataSource;
     }
 
     @Override
     public void refreshData(boolean isInternetConnection) {
-       if(isInternetConnection) {
-           dataRepository.refreshAndGetData()
-                   .subscribeOn(Schedulers.newThread()).
-                   observeOn(AndroidSchedulers.mainThread()).
-                   subscribe(covid19DataObserver);
-       }
-       else{
-           view.showConnectionAlert();
-       }
-    }
+        if (isInternetConnection) {
+            remoteDataSource.downloadData()
+                    .subscribeOn(Schedulers.newThread()).
+                    subscribe(new Observer<Covid19Data>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+                            Log.d("MainPresenter RxTest: ", "onSubscribe");
+                            view.clearCountersData();
+                            view.setProgressBarsVisibility(true);
+                        }
 
-    private class DataObserver implements Observer<Integer> {
-        int i;
-        String[] countersData = new String[5];
+                        @Override
+                        public void onNext(Covid19Data covid19Data) {
+                            Log.d("MainPresenter RxTest: ", "onNext ");
+                            ArrayList<String> countersData = new ArrayList<String>();
+                            countersData.add(0, String.valueOf(covid19Data.getCasesAll()));
+                            countersData.add(1, String.valueOf(covid19Data.getCasesToday()));
+                            countersData.add(2, String.valueOf(covid19Data.getCuredAll()));
+                            countersData.add(3,String.valueOf(covid19Data.getDeathsAll()));
+                            countersData.add(4,String.valueOf(covid19Data.getDeathsToday()));
+                            view.setProgressBarsVisibility(false);
+                            view.setCountersData(countersData);
+                        }
 
-        @Override
-        public void onSubscribe(Disposable d) {
-            Log.d("MainPresenter RxTest: ", "onSubscribe");
-            view.clearCountersData();
-            view.setProgressBarsVisibility(true);
-            i = 0;
-        }
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.d("MainPresenter RxTest: ", "onError");
+                            view.setProgressBarsVisibility(false);
+                            view.setCountersError();
+                        }
 
-        @Override
-        public void onNext(Integer integer) {
-            Log.d("MainPresenter RxTest: ", "onNext " + integer);
-            if(i <countersData.length){
-                countersData[i] = integer.toString();
-            }
-            i++;
-        }
-
-        @Override
-        public void onError(Throwable e) {
-            Log.d("MainPresenter RxTest: ", "onError");
-            view.setProgressBarsVisibility(false);
-            view.setCountersError();
-        }
-
-        @Override
-        public void onComplete() {
-            Log.d("MainPresenter RxTest: ", "onComplete");
-            view.setProgressBarsVisibility(false);
-            view.setCountersData(countersData);
+                        @Override
+                        public void onComplete() {
+                            Log.d("MainPresenter RxTest: ", "onComplete");
+                        }
+                    });
+        } else {
+            view.showConnectionAlert();
         }
     }
 }

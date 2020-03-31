@@ -1,4 +1,4 @@
-package com.dandrzas.covid19poland.model;
+package com.dandrzas.covid19poland.model.domain;
 
 public class Covid19Data {
 

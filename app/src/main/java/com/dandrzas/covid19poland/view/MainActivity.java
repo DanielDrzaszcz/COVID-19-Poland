@@ -1,15 +1,13 @@
 package com.dandrzas.covid19poland.view;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import com.dandrzas.covid19poland.R;
-import com.dandrzas.covid19poland.remotedatasource.NetworkHandler;
+import com.dandrzas.covid19poland.model.remotedatasource.RemoteDataSource;
 import com.dandrzas.covid19poland.presenter.MainPresenter;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.TypedValue;
@@ -42,14 +40,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityIF {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
-        for (ProgressBar progressBar : progressBars) {
-            progressBar.setVisibility(View.INVISIBLE);
-        }
+
         coutersTextSize = textViewsCounters.get(0).getTextSize();
         activityView.setOnTouchListener(new TouchRefreshDataListener());
 
-        NetworkHandler.createInstance(this);
-        presenter = new MainPresenter(this);
+        RemoteDataSource.createInstance(this);
+        presenter = new MainPresenter(this, RemoteDataSource.getInstance());
         presenter.refreshData(checkInternetConnection());
 
     }
@@ -60,29 +56,27 @@ public class MainActivity extends AppCompatActivity implements MainActivityIF {
     }
 
     @Override
-    public void setCountersData(String[] countersData) {
+    public void setCountersData(List<String> countersData) {
         textViewsCounters.get(2).setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorGreen, null));
-        for (int i = 0; i < textViewsCounters.size(); i++) {
-            if (i < countersData.length) {
-                textViewsCounters.get(i).setTextSize(TypedValue.COMPLEX_UNIT_PX, coutersTextSize);
-                textViewsCounters.get(i).setText(countersData[i]);
-            }
+        for(String counterData : countersData){
+            textViewsCounters.get(countersData.indexOf(counterData)).setTextSize(TypedValue.COMPLEX_UNIT_PX, coutersTextSize);
+            textViewsCounters.get(countersData.indexOf(counterData)).setText(counterData);
         }
     }
 
     @Override
     public void clearCountersData() {
-        for (int i = 0; i < textViewsCounters.size(); i++) {
-            textViewsCounters.get(i).setText("");
+        for (TextView counterData : textViewsCounters) {
+            textViewsCounters.get(textViewsCounters.indexOf(counterData)).setText("");
         }
     }
 
     @Override
     public void setCountersError() {
         textViewsCounters.get(2).setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorRed, null));
-        for (int i = 0; i < textViewsCounters.size(); i++) {
-            textViewsCounters.get(i).setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) (coutersTextSize * 0.4));
-            textViewsCounters.get(i).setText(R.string.download_error);
+        for (TextView counterData : textViewsCounters) {
+            textViewsCounters.get(textViewsCounters.indexOf(counterData)).setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) (coutersTextSize * 0.4));
+            textViewsCounters.get(textViewsCounters.indexOf(counterData)).setText(R.string.download_error);
         }
     }
 
@@ -130,7 +124,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityIF {
             if((event.getAction()== MotionEvent.ACTION_UP)&&(moveDone)&&((Math.abs(event.getY()-startY))>100)&&((Math.abs(event.getX()-startX))<200)){
                 presenter.refreshData(checkInternetConnection());
             }
-
             return true;
         }
     }
