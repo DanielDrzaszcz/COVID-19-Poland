@@ -17,11 +17,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
+
+import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity implements MainActivityIF {
     private MainPresenter presenter;
@@ -46,17 +49,17 @@ public class MainActivity extends AppCompatActivity implements MainActivityIF {
 
         RemoteDataSource.createInstance(this);
         presenter = new MainPresenter(this, RemoteDataSource.getInstance());
-        presenter.refreshData(checkInternetConnection());
+        presenter.refreshData(checkInternetConnection(), Schedulers.newThread());
 
     }
 
     @OnClick(R.id.fab)
     public void fabClick() {
-        presenter.refreshData(checkInternetConnection());
+        presenter.refreshData(checkInternetConnection(), Schedulers.newThread());
     }
 
     @Override
-    public void setCountersData(List<String> countersData) {
+    public void setCountersData(ArrayList<String> countersData) {
         textViewsCounters.get(2).setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorGreen, null));
         for(String counterData : countersData){
             textViewsCounters.get(countersData.indexOf(counterData)).setTextSize(TypedValue.COMPLEX_UNIT_PX, coutersTextSize);
@@ -122,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityIF {
                 moveDone = true;
             }
             if((event.getAction()== MotionEvent.ACTION_UP)&&(moveDone)&&((Math.abs(event.getY()-startY))>100)&&((Math.abs(event.getX()-startX))<200)){
-                presenter.refreshData(checkInternetConnection());
+                presenter.refreshData(checkInternetConnection(), Schedulers.newThread());
             }
             return true;
         }

@@ -6,6 +6,7 @@ import com.dandrzas.covid19poland.model.remotedatasource.RemoteDataSourceIF;
 import com.dandrzas.covid19poland.view.MainActivityIF;
 import java.util.ArrayList;
 import io.reactivex.Observer;
+import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -20,13 +21,16 @@ public class MainPresenter implements MainPresenterIF {
     }
 
     @Override
-    public void refreshData(boolean isInternetConnection) {
+    public void refreshData(boolean isInternetConnection, Scheduler scheduler) {
         if (isInternetConnection) {
             remoteDataSource.downloadData()
-                    .subscribeOn(Schedulers.newThread()).
-                    subscribe(new Observer<Covid19Data>() {
+                    .subscribeOn(scheduler)
+                    .subscribe(new Observer<Covid19Data>() {
+                        Disposable disposable;
+
                         @Override
-                        public void onSubscribe(Disposable d) {
+                        public void onSubscribe(Disposable disposable) {
+                            this.disposable = disposable;
                             Log.d("MainPresenter RxTest: ", "onSubscribe");
                             view.clearCountersData();
                             view.setProgressBarsVisibility(true);
@@ -55,6 +59,7 @@ public class MainPresenter implements MainPresenterIF {
                         @Override
                         public void onComplete() {
                             Log.d("MainPresenter RxTest: ", "onComplete");
+                            disposable.dispose();
                         }
                     });
         } else {
