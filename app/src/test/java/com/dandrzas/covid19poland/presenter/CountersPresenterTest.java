@@ -2,8 +2,7 @@ package com.dandrzas.covid19poland.presenter;
 
 import com.dandrzas.covid19poland.data.domain.Covid19Data;
 import com.dandrzas.covid19poland.data.remotedatasource.RemoteDataSource;
-import com.dandrzas.covid19poland.ui.MainActivity;
-import com.dandrzas.covid19poland.ui.countersfragment.presenter.MainPresenter;
+import com.dandrzas.covid19poland.ui.countersfragment.presenter.CountersPresenter;
 import com.dandrzas.covid19poland.ui.countersfragment.view.CountersFragment;
 
 import org.junit.Before;
@@ -25,14 +24,14 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class MainPresenterTest {
+public class CountersPresenterTest {
 
     private final Integer TEST_ALL_CASES = 9999;
     private final Integer TEST_TODAY_CASES = 54;
     private final Integer TEST_ALL_CURED = 54;
     private final Integer TEST_ALL_DEATHS = 65;
     private final Integer TEST_TODAY_DEATHS = 5;
-    private MainPresenter presenter;
+    private CountersPresenter presenter;
     private Covid19Data data = new Covid19Data();
     private ArrayList<String> dataList = new ArrayList<>();
 
@@ -44,7 +43,7 @@ public class MainPresenterTest {
 
     @Before
     public void setUp() {
-        presenter = new MainPresenter(viewMock, remoteDataSourceMock);
+        presenter = new CountersPresenter(viewMock, remoteDataSourceMock);
         data.setCasesAll(TEST_ALL_CASES);
         data.setCasesToday(TEST_TODAY_CASES);
         data.setCuredAll(TEST_ALL_CURED);

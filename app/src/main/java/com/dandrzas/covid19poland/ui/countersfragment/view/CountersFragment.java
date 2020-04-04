@@ -16,7 +16,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.dandrzas.covid19poland.R;
 import com.dandrzas.covid19poland.data.remotedatasource.RemoteDataSource;
-import com.dandrzas.covid19poland.ui.countersfragment.presenter.MainPresenter;
+import com.dandrzas.covid19poland.ui.countersfragment.presenter.CountersPresenter;
+
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
@@ -28,7 +29,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class CountersFragment extends Fragment implements CountersFragmentIF {
 
-    private MainPresenter presenter;
+    private CountersPresenter presenter;
     @BindViews({R.id.text_view_all_cases_counter, R.id.text_view_today_cases_counter, R.id.text_view_all_cured_counter, R.id.text_view_all_deaths_counter, R.id.text_view_today_deaths_counter})
     List<TextView> textViewsCounters;
     @BindViews({R.id.progress_bar_1, R.id.progress_bar_2, R.id.progress_bar_3, R.id.progress_bar_4, R.id.progress_bar_5})
@@ -48,9 +49,8 @@ public class CountersFragment extends Fragment implements CountersFragmentIF {
         countersFragmentView.setOnTouchListener(new TouchRefreshDataListener());
 
 
-        presenter = new MainPresenter(this, RemoteDataSource.getInstance());
+        presenter = new CountersPresenter(this, RemoteDataSource.getInstance());
         presenter.refreshData(checkInternetConnection(), Schedulers.newThread());
-
         return view;
     }
 
@@ -67,6 +67,7 @@ public class CountersFragment extends Fragment implements CountersFragmentIF {
             textViewsCounters.get(countersData.indexOf(counterData)).setTextSize(TypedValue.COMPLEX_UNIT_PX, coutersTextSize);
             textViewsCounters.get(countersData.indexOf(counterData)).setText(counterData);
         }
+
     }
 
     @Override

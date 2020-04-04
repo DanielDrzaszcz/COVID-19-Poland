@@ -10,11 +10,11 @@ import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
 
 
-public class MainPresenter implements MainPresenterIF {
+public class CountersPresenter implements CountersPresenterIF {
     private CountersFragmentIF view;
     private RemoteDataSourceIF remoteDataSource;
 
-    public MainPresenter(CountersFragmentIF view, RemoteDataSourceIF remoteDataSource) {
+    public CountersPresenter(CountersFragmentIF view, RemoteDataSourceIF remoteDataSource) {
         this.view = view;
         this.remoteDataSource = remoteDataSource;
     }
@@ -30,14 +30,14 @@ public class MainPresenter implements MainPresenterIF {
                         @Override
                         public void onSubscribe(Disposable disposable) {
                             this.disposable = disposable;
-                            Log.d("MainPresenter RxTest: ", "onSubscribe");
+                            Log.d("CountersPresenter RxTest: ", "onSubscribe");
                             view.clearCountersData();
                             view.setProgressBarsVisibility(true);
                         }
 
                         @Override
                         public void onNext(Covid19Data covid19Data) {
-                            Log.d("MainPresenter RxTest: ", "onNext ");
+                            Log.d("CountersPresenter RxTest: ", "onNext ");
                             ArrayList<String> countersData = new ArrayList<String>();
                             countersData.add(0, String.valueOf(covid19Data.getCasesAll()));
                             countersData.add(1, String.valueOf(covid19Data.getCasesToday()));
@@ -50,14 +50,14 @@ public class MainPresenter implements MainPresenterIF {
 
                         @Override
                         public void onError(Throwable e) {
-                            Log.d("MainPresenter RxTest: ", "onError");
+                            Log.d("CountersPresenter RxTest: ", "onError");
                             view.setProgressBarsVisibility(false);
                             view.setCountersError();
                         }
 
                         @Override
                         public void onComplete() {
-                            Log.d("MainPresenter RxTest: ", "onComplete");
+                            Log.d("CountersPresenter RxTest: ", "onComplete");
                             disposable.dispose();
                         }
                     });
