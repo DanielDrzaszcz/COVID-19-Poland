@@ -1,6 +1,5 @@
-package com.dandrzas.covid19poland.model.domain;
+package com.dandrzas.covid19poland.data.domain;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

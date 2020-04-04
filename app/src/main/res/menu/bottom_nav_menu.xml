@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_counters"
+        android:icon="@drawable/ic_counter"
+        android:title="@string/menu_counters" />
+
+    <item
+        android:id="@+id/navigation_trends"
+        android:icon="@drawable/ic_timeline_24px"
+        android:title="@string/menu_trends" />
+
+</menu>

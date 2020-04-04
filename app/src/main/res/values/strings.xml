@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">COVID-19 Poland</string>
+    <string name="app_name">COVID-19 Polska</string>
     <string name="all_cases">Przypadki wszystkie</string>
     <string name="today_cases">Przypadki dzisiaj</string>
     <string name="all_cured">Przypadki wyleczone wszystkie</string>
@@ -8,4 +8,7 @@
     <string name="download_error">Błąd pobierania</string>
     <string name="connection_dialog_title">Błąd</string>
     <string name="connection_dialog_message">Brak dostępu do Internetu</string>
+    <string name="menu_counters">Dane</string>
+    <string name="menu_trends">Trendy</string>
+
 </resources>

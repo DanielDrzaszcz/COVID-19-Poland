@@ -1,21 +1,20 @@
-package com.dandrzas.covid19poland.presenter;
+package com.dandrzas.covid19poland.ui.countersfragment.presenter;
 
 import android.util.Log;
-import com.dandrzas.covid19poland.model.domain.Covid19Data;
-import com.dandrzas.covid19poland.model.remotedatasource.RemoteDataSourceIF;
-import com.dandrzas.covid19poland.view.MainActivityIF;
+import com.dandrzas.covid19poland.data.domain.Covid19Data;
+import com.dandrzas.covid19poland.data.remotedatasource.RemoteDataSourceIF;
+import com.dandrzas.covid19poland.ui.countersfragment.view.CountersFragmentIF;
 import java.util.ArrayList;
 import io.reactivex.Observer;
 import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 
 public class MainPresenter implements MainPresenterIF {
-    private MainActivityIF view;
+    private CountersFragmentIF view;
     private RemoteDataSourceIF remoteDataSource;
 
-    public MainPresenter(MainActivityIF view, RemoteDataSourceIF remoteDataSource) {
+    public MainPresenter(CountersFragmentIF view, RemoteDataSourceIF remoteDataSource) {
         this.view = view;
         this.remoteDataSource = remoteDataSource;
     }

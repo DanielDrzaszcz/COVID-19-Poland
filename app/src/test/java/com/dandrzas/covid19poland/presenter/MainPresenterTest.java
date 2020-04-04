@@ -1,14 +1,15 @@
 package com.dandrzas.covid19poland.presenter;
 
-import com.dandrzas.covid19poland.model.domain.Covid19Data;
-import com.dandrzas.covid19poland.model.remotedatasource.RemoteDataSource;
-import com.dandrzas.covid19poland.view.MainActivity;
+import com.dandrzas.covid19poland.data.domain.Covid19Data;
+import com.dandrzas.covid19poland.data.remotedatasource.RemoteDataSource;
+import com.dandrzas.covid19poland.ui.MainActivity;
+import com.dandrzas.covid19poland.ui.countersfragment.presenter.MainPresenter;
+import com.dandrzas.covid19poland.ui.countersfragment.view.CountersFragment;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class MainPresenterTest {
     private ArrayList<String> dataList = new ArrayList<>();
 
     @Mock
-    MainActivity viewMock;
+    CountersFragment viewMock;
 
     @Mock
     RemoteDataSource remoteDataSourceMock;

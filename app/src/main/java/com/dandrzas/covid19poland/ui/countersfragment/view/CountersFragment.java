@@ -1,23 +1,22 @@
-package com.dandrzas.covid19poland.view;
+package com.dandrzas.covid19poland.ui.countersfragment.view;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import com.dandrzas.covid19poland.R;
-import com.dandrzas.covid19poland.model.remotedatasource.RemoteDataSource;
-import com.dandrzas.covid19poland.presenter.MainPresenter;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.Fragment;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.res.ResourcesCompat;
-
+import com.dandrzas.covid19poland.R;
+import com.dandrzas.covid19poland.data.remotedatasource.RemoteDataSource;
+import com.dandrzas.covid19poland.ui.countersfragment.presenter.MainPresenter;
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
@@ -26,36 +25,39 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainActivity extends AppCompatActivity implements MainActivityIF {
+
+public class CountersFragment extends Fragment implements CountersFragmentIF {
+
     private MainPresenter presenter;
     @BindViews({R.id.text_view_all_cases_counter, R.id.text_view_today_cases_counter, R.id.text_view_all_cured_counter, R.id.text_view_all_deaths_counter, R.id.text_view_today_deaths_counter})
     List<TextView> textViewsCounters;
     @BindViews({R.id.progress_bar_1, R.id.progress_bar_2, R.id.progress_bar_3, R.id.progress_bar_4, R.id.progress_bar_5})
     List<ProgressBar> progressBars;
     private float coutersTextSize;
-    @BindView(R.id.main_activity_content) View activityView;
+    @BindView(R.id.counters_fragment) View countersFragmentView;
 
-    @SuppressLint("ClickableViewAccessibility")
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ButterKnife.bind(this);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_counters, container, false);
+        ButterKnife.bind(this, view);
 
         coutersTextSize = textViewsCounters.get(0).getTextSize();
-        activityView.setOnTouchListener(new TouchRefreshDataListener());
+        countersFragmentView.setOnTouchListener(new TouchRefreshDataListener());
 
-        RemoteDataSource.createInstance(this);
+
         presenter = new MainPresenter(this, RemoteDataSource.getInstance());
         presenter.refreshData(checkInternetConnection(), Schedulers.newThread());
 
+        return view;
     }
 
     @OnClick(R.id.fab)
     public void fabClick() {
         presenter.refreshData(checkInternetConnection(), Schedulers.newThread());
+
     }
 
     @Override
@@ -96,14 +98,14 @@ public class MainActivity extends AppCompatActivity implements MainActivityIF {
 
     @Override
     public void showConnectionAlert() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage(R.string.connection_dialog_message)
                 .setTitle(R.string.connection_dialog_title);
         builder.create().show();
     }
 
     private boolean checkInternetConnection(){
-        ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager)getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
@@ -115,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityIF {
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 startX = event.getX();
                 startY = event.getY();
@@ -130,5 +131,4 @@ public class MainActivity extends AppCompatActivity implements MainActivityIF {
             return true;
         }
     }
-
 }

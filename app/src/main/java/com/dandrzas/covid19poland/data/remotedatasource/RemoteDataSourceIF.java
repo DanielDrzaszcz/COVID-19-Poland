@@ -1,6 +1,6 @@
-package com.dandrzas.covid19poland.model.remotedatasource;
+package com.dandrzas.covid19poland.data.remotedatasource;
 
-import com.dandrzas.covid19poland.model.domain.Covid19Data;
+import com.dandrzas.covid19poland.data.domain.Covid19Data;
 
 import io.reactivex.Observable;
 
