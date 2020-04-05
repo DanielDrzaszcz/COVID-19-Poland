@@ -6,4 +6,5 @@ import io.reactivex.Observable;
 
 public interface RemoteDataSourceIF {
     Observable<Covid19Data> downloadData();
+    Covid19Data getData();
 }

@@ -50,7 +50,7 @@ public class CountersFragment extends Fragment implements CountersFragmentIF {
 
 
         presenter = new CountersPresenter(this, RemoteDataSource.getInstance());
-        presenter.refreshData(checkInternetConnection(), Schedulers.newThread());
+        presenter.initData(checkInternetConnection(), Schedulers.newThread());
         return view;
     }
 

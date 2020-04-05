@@ -71,6 +71,7 @@ public class CountersPresenterTest {
         verify(viewMock, atLeast(2)).setProgressBarsVisibility(anyBoolean());
         verify(viewMock, atLeastOnce()).setCountersData(dataList);
         verify(viewMock, never()).setCountersError();
+
     }
 
 
@@ -89,6 +90,7 @@ public class CountersPresenterTest {
         verify(viewMock, atLeast(2)).setProgressBarsVisibility(anyBoolean());
         verify(viewMock, never()).setCountersData(any());
         verify(viewMock, atLeastOnce()).setCountersError();
+
     }
 
     @Test
@@ -102,6 +104,44 @@ public class CountersPresenterTest {
         verify(viewMock, never()).clearCountersData();
         verify(viewMock, never()).setProgressBarsVisibility(anyBoolean());
         verify(viewMock, never()).setCountersData(any());
+        verify(viewMock, never()).setCountersError();
+
+    }
+
+    @Test
+    public void initDataTestWhenDataIsAvailable() {
+
+        // Config
+        when(remoteDataSourceMock.getData()).thenReturn(data);
+
+        // Trigger
+        presenter.initData(true, Schedulers.trampoline());
+
+        // Verify
+        verify(viewMock, never()).showConnectionAlert();
+        verify(viewMock, never()).clearCountersData();
+        verify(viewMock, never()).setProgressBarsVisibility(anyBoolean());
+        verify(viewMock, atLeastOnce()).setCountersData(dataList);
+        verify(viewMock, never()).setCountersError();
+
+    }
+
+    @Test
+    public void initDataTestWhenDataIsUnavailable() {
+
+        // Config
+        when(remoteDataSourceMock.getData()).thenReturn(null);
+        when(remoteDataSourceMock.downloadData()).thenReturn(Observable.just(data));
+
+
+        // Trigger
+        presenter.initData(true, Schedulers.trampoline());
+
+        // Verify
+        verify(viewMock, never()).showConnectionAlert();
+        verify(viewMock, atLeastOnce()).clearCountersData();
+        verify(viewMock, atLeast(2)).setProgressBarsVisibility(anyBoolean());
+        verify(viewMock, atLeastOnce()).setCountersData(dataList);
         verify(viewMock, never()).setCountersError();
 
     }

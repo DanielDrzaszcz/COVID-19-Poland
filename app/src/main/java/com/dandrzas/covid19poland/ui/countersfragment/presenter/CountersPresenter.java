@@ -1,6 +1,5 @@
 package com.dandrzas.covid19poland.ui.countersfragment.presenter;
 
-import android.util.Log;
 import com.dandrzas.covid19poland.data.domain.Covid19Data;
 import com.dandrzas.covid19poland.data.remotedatasource.RemoteDataSourceIF;
 import com.dandrzas.covid19poland.ui.countersfragment.view.CountersFragmentIF;
@@ -30,14 +29,12 @@ public class CountersPresenter implements CountersPresenterIF {
                         @Override
                         public void onSubscribe(Disposable disposable) {
                             this.disposable = disposable;
-                            Log.d("CountersPresenter RxTest: ", "onSubscribe");
                             view.clearCountersData();
                             view.setProgressBarsVisibility(true);
                         }
 
                         @Override
                         public void onNext(Covid19Data covid19Data) {
-                            Log.d("CountersPresenter RxTest: ", "onNext ");
                             ArrayList<String> countersData = new ArrayList<String>();
                             countersData.add(0, String.valueOf(covid19Data.getCasesAll()));
                             countersData.add(1, String.valueOf(covid19Data.getCasesToday()));
@@ -50,19 +47,34 @@ public class CountersPresenter implements CountersPresenterIF {
 
                         @Override
                         public void onError(Throwable e) {
-                            Log.d("CountersPresenter RxTest: ", "onError");
                             view.setProgressBarsVisibility(false);
                             view.setCountersError();
                         }
 
                         @Override
                         public void onComplete() {
-                            Log.d("CountersPresenter RxTest: ", "onComplete");
                             disposable.dispose();
                         }
                     });
         } else {
             view.showConnectionAlert();
+        }
+    }
+
+    @Override
+    public void initData(boolean isInternetConnection, Scheduler scheduler) {
+        Covid19Data data = remoteDataSource.getData();
+        if(data != null){
+            ArrayList<String> countersData = new ArrayList<String>();
+            countersData.add(0, String.valueOf(data.getCasesAll()));
+            countersData.add(1, String.valueOf(data.getCasesToday()));
+            countersData.add(2, String.valueOf(data.getCuredAll()));
+            countersData.add(3,String.valueOf(data.getDeathsAll()));
+            countersData.add(4,String.valueOf(data.getDeathsToday()));
+            view.setCountersData(countersData);
+        }
+        else{
+            refreshData(isInternetConnection, scheduler);
         }
     }
 }
