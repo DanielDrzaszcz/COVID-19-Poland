@@ -2,11 +2,27 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/trends_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.trendsfragment.view.TrendsFragment"
-    android:id="@+id/trends_fragment"
-    android:background="@color/colorPrimaryLight">
+    android:background="@color/colorPrimaryLight"
+    tools:context=".ui.trendsfragment.view.TrendsFragment">
+
+
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/chart2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toTopOf="@+id/fab"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        android:layout_marginTop="35dp"
+        android:layout_marginBottom="75dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"/>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
