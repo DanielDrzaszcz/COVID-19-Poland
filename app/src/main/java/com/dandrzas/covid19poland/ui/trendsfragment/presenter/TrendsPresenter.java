@@ -3,6 +3,8 @@ package com.dandrzas.covid19poland.ui.trendsfragment.presenter;
 import com.dandrzas.covid19poland.data.remotedatasource.RemoteDataSourceIF;
 import com.dandrzas.covid19poland.ui.trendsfragment.view.TrendsFragmentIF;
 
+import io.reactivex.Scheduler;
+
 
 public class TrendsPresenter implements TrendsPresenterIF {
     private TrendsFragmentIF view;
@@ -13,4 +15,13 @@ public class TrendsPresenter implements TrendsPresenterIF {
         this.remoteDataSource = remoteDataSource;
     }
 
+    @Override
+    public void refreshData(boolean isInternetConnection, Scheduler scheduler) {
+
+    }
+
+    @Override
+    public void initData(boolean isInternetConnection, Scheduler scheduler) {
+
+    }
 }

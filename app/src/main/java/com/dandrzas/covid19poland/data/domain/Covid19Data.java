@@ -1,5 +1,7 @@
 package com.dandrzas.covid19poland.data.domain;
 
+import java.util.HashMap;
+
 public class Covid19Data {
 
     private int casesAll;
@@ -7,6 +9,8 @@ public class Covid19Data {
     private int curedAll;
     private int deathsAll;
     private int deathsToday;
+    private HashMap<String, Integer> historyCasesAll;
+    private HashMap<String, Integer> historyCasesToday;
 
     public Covid19Data() {
     }
@@ -51,4 +55,16 @@ public class Covid19Data {
         this.deathsToday = deathsToday;
     }
 
+    public HashMap<String, Integer> getHistoryCasesAll() {
+        return historyCasesAll;
+    }
+
+    public void setHistoryCasesAll(HashMap<String, Integer> historyCasesAll) {
+        historyCasesToday = historyCasesAll;
+        this.historyCasesAll = historyCasesAll;
+    }
+
+    public HashMap<String, Integer> getHistoryCasesToday() {
+        return historyCasesToday;
+    }
 }

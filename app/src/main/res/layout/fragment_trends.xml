@@ -8,21 +8,112 @@
     android:background="@color/colorPrimaryLight"
     tools:context=".ui.trendsfragment.view.TrendsFragment">
 
+    <TextView
+        android:id="@+id/textView_trend_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/history_all"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/trend_name_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <ProgressBar
+        android:id="@+id/progress_bar_trend_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toBottomOf="@+id/chart_line"
+        app:layout_constraintEnd_toEndOf="@+id/chart_line"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/chart_line"
+        app:layout_constraintTop_toTopOf="@+id/chart_line"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/textView_trend_line_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/download_error"
+        android:textColor="@color/colorRed"
+        android:textSize="@dimen/history_error_size"
+        app:layout_constraintBottom_toBottomOf="@+id/chart_line"
+        app:layout_constraintEnd_toEndOf="@+id/chart_line"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/chart_line"
+        app:layout_constraintTop_toTopOf="@+id/chart_line"
+        android:visibility="invisible"/>
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart_line"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/chart_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.35"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView_trend_line"
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.95" />
+
+    <TextView
+        android:id="@+id/textView_trend_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/history_daily"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/trend_name_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/chart_bar"/>
+
+    <TextView
+        android:id="@+id/textView_trend_bar_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/download_error"
+        android:textColor="@color/colorRed"
+        android:textSize="@dimen/history_error_size"
+        app:layout_constraintBottom_toBottomOf="@+id/chart_bar"
+        app:layout_constraintEnd_toEndOf="@+id/chart_bar"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/chart_bar"
+        app:layout_constraintTop_toTopOf="@+id/chart_bar"
+        android:visibility="invisible"/>
+
+    <ProgressBar
+        android:id="@+id/progress_bar_trend_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toBottomOf="@+id/chart_bar"
+        app:layout_constraintEnd_toEndOf="@+id/chart_bar"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/chart_bar"
+        app:layout_constraintTop_toTopOf="@+id/chart_bar"
+        android:visibility="invisible"/>
 
     <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/chart2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/chart_bar"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/fab"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.35"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent"
-        android:layout_marginTop="35dp"
-        android:layout_marginBottom="75dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"/>
-
+        app:layout_constraintTop_toBottomOf="@+id/chart_line"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.95" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -33,5 +124,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_refresh_white_24dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

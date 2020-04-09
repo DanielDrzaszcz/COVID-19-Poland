@@ -10,5 +10,7 @@
     <string name="connection_dialog_message">Brak dostępu do Internetu</string>
     <string name="menu_counters">Dane</string>
     <string name="menu_trends">Trendy</string>
+    <string name="history_all">Przypadki wszystkie</string>
+    <string name="history_daily">Przypadki dziennie</string>
 
 </resources>

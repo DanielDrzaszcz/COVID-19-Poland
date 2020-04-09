@@ -2,6 +2,8 @@ package com.dandrzas.covid19poland.data.remotedatasource;
 
 import com.dandrzas.covid19poland.data.domain.Covid19Data;
 
+import java.util.Map;
+
 import io.reactivex.Observable;
 
 public interface RemoteDataSourceIF {

@@ -1,4 +1,4 @@
-package com.dandrzas.covid19poland.presenter;
+package com.dandrzas.covid19poland.ui.countersfragment.presenter;
 
 import com.dandrzas.covid19poland.data.domain.Covid19Data;
 import com.dandrzas.covid19poland.data.remotedatasource.RemoteDataSource;
