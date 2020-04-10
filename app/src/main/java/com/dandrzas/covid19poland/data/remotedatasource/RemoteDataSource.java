@@ -8,6 +8,11 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.dandrzas.covid19poland.data.domain.Covid19Data;
 import org.json.JSONException;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import io.reactivex.Observable;
 
 public class RemoteDataSource implements RemoteDataSourceIF {
@@ -46,7 +51,13 @@ public class RemoteDataSource implements RemoteDataSourceIF {
                                 data.setCuredAll((int)response.get("recovered"));
                                 data.setDeathsAll((int)response.get("deaths"));
                                 data.setDeathsToday((int)response.get("todayDeaths"));
-
+                                HashMap<String, Integer> casesHistoryAll = new LinkedHashMap<>();
+                                casesHistoryAll.put("3/25/20", 4000);
+                                casesHistoryAll.put("3/26/20", 4200);
+                                casesHistoryAll.put("3/27/20", 4500);
+                                casesHistoryAll.put("3/28/20", 4900);
+                                casesHistoryAll.put("3/29/20", 5500);
+                                data.setHistoryCasesAll(casesHistoryAll);
                                 emitter.onNext(data);
                                 emitter.onComplete();
 

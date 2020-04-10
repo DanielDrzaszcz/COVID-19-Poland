@@ -18,11 +18,14 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 import io.reactivex.schedulers.TestScheduler;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyObject;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.atMostOnce;
 import static org.mockito.Mockito.never;
@@ -61,15 +64,15 @@ public class TrendsPresenterTest {
         when(remoteDataSourceMock.downloadData()).thenReturn(Observable.just(data));
 
         // Trigger
-        presenter.refreshData(true, new TestScheduler());
+        presenter.refreshData(true, Schedulers.trampoline());
 
         // Verify
         verify(viewMock, never()).showConnectionAlert();
-        verify(viewMock, never()).setErrorVisibility(anyBoolean());
+        verify(viewMock, never()).setErrorVisibility(true);
         verify(viewMock, atLeastOnce()).setProgressBarsVisibility(true);
         verify(viewMock, atLeastOnce()).setProgressBarsVisibility(false);
         verify(viewMock, atLeastOnce()).setChartsVisibility(true);
-        verify(viewMock, atMostOnce()).setChartsData(any(), any(), dateDays);
+        verify(viewMock, atMostOnce()).setChartsData(any(), any(), eq(dateDays));
 
     }
 
@@ -80,7 +83,7 @@ public class TrendsPresenterTest {
         when(remoteDataSourceMock.downloadData()).thenReturn(Observable.error(new Throwable()));
 
         // Trigger
-        presenter.refreshData(true, new TestScheduler());
+        presenter.refreshData(true, Schedulers.trampoline());
 
         // Verify
         verify(viewMock, never()).showConnectionAlert();
@@ -96,7 +99,7 @@ public class TrendsPresenterTest {
     public void refreshDataTestWhenInternetDisable() {
 
         // Trigger
-        presenter.refreshData(false, new TestScheduler());
+        presenter.refreshData(false, Schedulers.trampoline());
 
         // Verify
         verify(viewMock, atLeastOnce()).showConnectionAlert();
@@ -110,15 +113,18 @@ public class TrendsPresenterTest {
     @Test
     public void initDataTestWhenDataIsAvailable() {
 
+        // Config
+        when(remoteDataSourceMock.getData()).thenReturn(data);
+
         // Trigger
-        presenter.initData(true, new TestScheduler());
+        presenter.initData(true, Schedulers.trampoline());
 
         // Verify
-        verify(viewMock, atLeastOnce()).showConnectionAlert();
-        verify(viewMock, never()).setErrorVisibility(anyBoolean());
-        verify(viewMock, never()).setProgressBarsVisibility(anyBoolean());
-        verify(viewMock, never()).setChartsVisibility(anyBoolean());
-        verify(viewMock, never()).setChartsData(any(), any(), dateDays);
+        verify(viewMock, never()).showConnectionAlert();
+        verify(viewMock, atLeastOnce()).setErrorVisibility(false);
+        verify(viewMock, atLeastOnce()).setProgressBarsVisibility(false);
+        verify(viewMock, atLeastOnce()).setChartsVisibility(true);
+        verify(viewMock, atMostOnce()).setChartsData(any(), any(), eq(dateDays) );
 
     }
 
@@ -126,18 +132,19 @@ public class TrendsPresenterTest {
     public void initDataTestWhenDataIsUnavailable() {
 
         // Config
+        when(remoteDataSourceMock.getData()).thenReturn(null);
         when(remoteDataSourceMock.downloadData()).thenReturn(Observable.just(data));
 
         // Trigger
-        presenter.initData(true, new TestScheduler());
+        presenter.initData(true, Schedulers.trampoline());
 
         // Verify
         verify(viewMock, never()).showConnectionAlert();
-        verify(viewMock, never()).setErrorVisibility(anyBoolean());
+        verify(viewMock, never()).setErrorVisibility(true);
         verify(viewMock, atLeastOnce()).setProgressBarsVisibility(true);
         verify(viewMock, atLeastOnce()).setProgressBarsVisibility(false);
         verify(viewMock, atLeastOnce()).setChartsVisibility(true);
-        verify(viewMock, atMostOnce()).setChartsData(any(), any(), dateDays);
+        verify(viewMock, atMostOnce()).setChartsData(any(), any(), eq(dateDays));
 
     }
 

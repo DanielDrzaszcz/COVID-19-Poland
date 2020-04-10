@@ -1,8 +1,12 @@
 package com.dandrzas.covid19poland.ui.trendsfragment.view;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -13,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.dandrzas.covid19poland.R;
 import com.dandrzas.covid19poland.data.remotedatasource.RemoteDataSource;
+import com.dandrzas.covid19poland.ui.countersfragment.view.CountersFragment;
 import com.dandrzas.covid19poland.ui.trendsfragment.presenter.TrendsPresenter;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -35,6 +40,8 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class TrendsFragment extends Fragment implements TrendsFragmentIF {
@@ -44,8 +51,7 @@ public class TrendsFragment extends Fragment implements TrendsFragmentIF {
     @BindView(R.id.chart_line)
     LineChart chartLine;
 
-    @BindView(R.id.chart_bar)
-    BarChart chartBar;
+    @BindView(R.id.chart_bar) BarChart chartBar;
 
     @BindViews({R.id.textView_trend_line_error, R.id.textView_trend_bar_error})
     List<TextView> textViewsError;
@@ -53,14 +59,27 @@ public class TrendsFragment extends Fragment implements TrendsFragmentIF {
     @BindViews({R.id.progress_bar_trend_line, R.id.progress_bar_trend_bar})
     List<ProgressBar> progressBars;
 
+    @BindView(R.id.trends_fragment)
+    View trendsFragmentView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_trends, container, false);
         ButterKnife.bind(this, view);
+        trendsFragmentView.setOnTouchListener(new TouchRefreshDataListener());
         presenter = new TrendsPresenter(this, RemoteDataSource.getInstance());
+        presenter.initData(checkInternetConnection(), Schedulers.newThread());
 
         return view;
+    }
+
+
+    @OnClick(R.id.fab)
+    public void fabClick() {
+        presenter.refreshData(checkInternetConnection(), Schedulers.newThread());
+
     }
 
     @Override
@@ -73,9 +92,12 @@ public class TrendsFragment extends Fragment implements TrendsFragmentIF {
     public void setChartsVisibility(boolean visibilityEnable) {
        if(visibilityEnable){
            chartLine.setVisibility(View.VISIBLE);
+           chartBar.setVisibility(View.VISIBLE);
+
        }
        else{
            chartLine.setVisibility(View.INVISIBLE);
+           chartBar.setVisibility(View.INVISIBLE);
        }
     }
 
@@ -152,7 +174,7 @@ public class TrendsFragment extends Fragment implements TrendsFragmentIF {
         chartBar.getXAxis().setDrawLabels(true);
         chartBar.getXAxis().setDrawAxisLine(true);
         chartBar.getXAxis().setLabelRotationAngle(270);
-        chartLine.getXAxis().setValueFormatter(new ValueFormatter(){
+        chartBar.getXAxis().setValueFormatter(new ValueFormatter(){
             @Override
             public String getAxisLabel(float value, AxisBase axis) {
                 return labelsDate[(int)value];
@@ -162,6 +184,34 @@ public class TrendsFragment extends Fragment implements TrendsFragmentIF {
         chartBar.getXAxis().setGranularity(1f);
         chartBar.getLegend().setEnabled(false);
         chartBar.invalidate();
+    }
+
+    private boolean checkInternetConnection(){
+        ConnectivityManager cm = (ConnectivityManager)getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
+    class TouchRefreshDataListener implements View.OnTouchListener{
+        float startY;
+        float startX;
+        boolean moveDone;
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                startX = event.getX();
+                startY = event.getY();
+                moveDone = false;
+            }
+            if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                moveDone = true;
+            }
+            if((event.getAction()== MotionEvent.ACTION_UP)&&(moveDone)&&((Math.abs(event.getY()-startY))>100)&&((Math.abs(event.getX()-startX))<200)){
+                presenter.refreshData(checkInternetConnection(), Schedulers.newThread());
+            }
+            return true;
+        }
     }
 
 }
