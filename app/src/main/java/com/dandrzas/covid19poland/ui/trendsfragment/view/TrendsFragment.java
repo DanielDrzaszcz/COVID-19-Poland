@@ -23,6 +23,7 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -142,6 +143,7 @@ public class TrendsFragment extends Fragment implements TrendsFragmentIF {
         chartLine.setPinchZoom(false);
         chartLine.moveViewToX(chartLine.getData().getXMax()-10);
 
+        chartLine.getAxis(YAxis.AxisDependency.LEFT).setAxisMinimum(0f);
         chartLine.getAxisLeft().setTextColor(Color.WHITE);
         chartLine.getAxisRight().setTextColor(Color.WHITE);
         chartLine.getDescription().setEnabled(false);

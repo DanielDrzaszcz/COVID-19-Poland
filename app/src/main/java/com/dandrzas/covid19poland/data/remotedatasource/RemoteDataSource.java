@@ -52,11 +52,23 @@ public class RemoteDataSource implements RemoteDataSourceIF {
                                 data.setDeathsAll((int)response.get("deaths"));
                                 data.setDeathsToday((int)response.get("todayDeaths"));
                                 HashMap<String, Integer> casesHistoryAll = new LinkedHashMap<>();
-                                casesHistoryAll.put("3/25/20", 4000);
-                                casesHistoryAll.put("3/26/20", 4200);
-                                casesHistoryAll.put("3/27/20", 4500);
-                                casesHistoryAll.put("3/28/20", 4900);
-                                casesHistoryAll.put("3/29/20", 5500);
+                                //casesHistoryAll.put("3/25/20", 1051);
+                                //casesHistoryAll.put("3/26/20", 1221);
+                                //casesHistoryAll.put("3/27/20", 1389);
+                                //casesHistoryAll.put("3/28/20", 1638);
+                                //casesHistoryAll.put("3/29/20", 1862);
+                                //casesHistoryAll.put("3/30/20", 2055);
+                                //casesHistoryAll.put("3/31/20", 2311);
+                                //casesHistoryAll.put("4/01/20", 2554);
+                                //casesHistoryAll.put("4/02/20", 2946);
+                                casesHistoryAll.put("4/03/20", 3383);
+                                casesHistoryAll.put("4/04/20", 3627);
+                                casesHistoryAll.put("4/05/20", 4102);
+                                casesHistoryAll.put("4/06/20", 4413);
+                                casesHistoryAll.put("4/07/20", 4848);
+                                casesHistoryAll.put("4/08/20", 5205);
+                                casesHistoryAll.put("4/09/20", 5575);
+
                                 data.setHistoryCasesAll(casesHistoryAll);
                                 emitter.onNext(data);
                                 emitter.onComplete();
