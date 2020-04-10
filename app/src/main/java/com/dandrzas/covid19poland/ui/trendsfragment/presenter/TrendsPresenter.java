@@ -1,12 +1,10 @@
 package com.dandrzas.covid19poland.ui.trendsfragment.presenter;
 
-import android.animation.TypeConverter;
 import android.graphics.Color;
 
 import com.dandrzas.covid19poland.data.domain.Covid19Data;
 import com.dandrzas.covid19poland.data.remotedatasource.RemoteDataSourceIF;
 import com.dandrzas.covid19poland.ui.trendsfragment.view.TrendsFragmentIF;
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -58,7 +56,7 @@ public class TrendsPresenter implements TrendsPresenterIF {
                             countersData.add(4,String.valueOf(covid19Data.getDeathsToday()));
 
                             LineData lineData = hashMapToLineData(covid19Data.getHistoryCasesAll());
-                            BarData barData = hashMapToBarData(covid19Data.getHistoryCasesToday());
+                            BarData barData = hashMapToBarData(covid19Data.getHistoryCasesDaily());
                             String[] dateLabels = Arrays.copyOf(covid19Data.getHistoryCasesAll().keySet().toArray(), covid19Data.getHistoryCasesAll().keySet().toArray().length, String[].class);
 
                             view.setProgressBarsVisibility(false);
@@ -92,8 +90,8 @@ public class TrendsPresenter implements TrendsPresenterIF {
         Covid19Data data = remoteDataSource.getData();
         if(data.getHistoryCasesAll() != null){
             LineData lineData = hashMapToLineData(data.getHistoryCasesAll());
-            BarData barData = hashMapToBarData(data.getHistoryCasesToday());
-            String[] dateLabels = Arrays.copyOf(data.getHistoryCasesToday().keySet().toArray(), data.getHistoryCasesToday().keySet().toArray().length, String[].class);
+            BarData barData = hashMapToBarData(data.getHistoryCasesDaily());
+            String[] dateLabels = Arrays.copyOf(data.getHistoryCasesDaily().keySet().toArray(), data.getHistoryCasesDaily().keySet().toArray().length, String[].class);
             view.setChartsData(barData, lineData,  dateLabels);
         }
         else{
