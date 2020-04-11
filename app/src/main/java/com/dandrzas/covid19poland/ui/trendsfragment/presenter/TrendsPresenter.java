@@ -68,8 +68,8 @@ public class TrendsPresenter implements TrendsPresenterIF {
 
                         @Override
                         public void onError(Throwable e) {
-                            view.setProgressBarsVisibility(false);
-                            view.setErrorVisibility(true);
+                                view.setProgressBarsVisibility(false);
+                                view.setErrorVisibility(true);
                         }
 
                         @Override
