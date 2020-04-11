@@ -2,8 +2,6 @@ package com.dandrzas.covid19poland.ui.trendsfragment.presenter;
 
 import com.dandrzas.covid19poland.data.domain.Covid19Data;
 import com.dandrzas.covid19poland.data.remotedatasource.RemoteDataSource;
-import com.dandrzas.covid19poland.ui.countersfragment.presenter.CountersPresenter;
-import com.dandrzas.covid19poland.ui.countersfragment.view.CountersFragment;
 import com.dandrzas.covid19poland.ui.trendsfragment.view.TrendsFragment;
 
 import org.junit.Before;
@@ -12,19 +10,14 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
-import io.reactivex.schedulers.TestScheduler;
 
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
-import static org.mockito.ArgumentMatchers.anyObject;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.atMostOnce;
@@ -38,7 +31,8 @@ public class TrendsPresenterTest {
     private HashMap<String, Integer> casesHistoryMap = new LinkedHashMap<>();
     private TrendsPresenter  presenter;
     private Covid19Data data = new Covid19Data();
-    private String[] dateDays = {"3/25/20", "3/26/20", "3/27/20", "3/28/20", "3/29/20"};
+    private String[] dateDaysAll = {"3/25/20", "3/26/20", "3/27/20", "3/28/20", "3/29/20"};
+    private String[] dateDaysDaily = {"3/26/20", "3/27/20", "3/28/20", "3/29/20"};
 
     @Mock
     TrendsFragment viewMock;
@@ -49,11 +43,11 @@ public class TrendsPresenterTest {
     @Before
     public void setUp(){
         presenter = new TrendsPresenter(viewMock, remoteDataSourceMock);
-        casesHistoryMap.put(dateDays[0], 150);
-        casesHistoryMap.put(dateDays[1], 170);
-        casesHistoryMap.put(dateDays[2], 168);
-        casesHistoryMap.put(dateDays[3], 249);
-        casesHistoryMap.put(dateDays[4], 224);
+        casesHistoryMap.put(dateDaysAll[0], 150);
+        casesHistoryMap.put(dateDaysAll[1], 170);
+        casesHistoryMap.put(dateDaysAll[2], 168);
+        casesHistoryMap.put(dateDaysAll[3], 249);
+        casesHistoryMap.put(dateDaysAll[4], 224);
         data.setHistoryCasesAll(casesHistoryMap);
     }
 
@@ -72,7 +66,8 @@ public class TrendsPresenterTest {
         verify(viewMock, atLeastOnce()).setProgressBarsVisibility(true);
         verify(viewMock, atLeastOnce()).setProgressBarsVisibility(false);
         verify(viewMock, atLeastOnce()).setChartsVisibility(true);
-        verify(viewMock, atMostOnce()).setChartsData(any(), any(), eq(dateDays));
+        verify(viewMock, atLeastOnce()).setLineChartData(any(), eq(dateDaysAll));
+        verify(viewMock, atLeastOnce()).setBarChartData(any(), eq(dateDaysDaily));
 
     }
 
@@ -91,7 +86,8 @@ public class TrendsPresenterTest {
         verify(viewMock, atLeastOnce()).setProgressBarsVisibility(true);
         verify(viewMock, atLeastOnce()).setProgressBarsVisibility(false);
         verify(viewMock, atLeastOnce()).setChartsVisibility(false);
-        verify(viewMock, never()).setChartsData(any(), any(), any());
+        verify(viewMock, never()).setLineChartData(any(), any());
+        verify(viewMock, never()).setBarChartData(any(), any());
 
     }
 
@@ -106,7 +102,8 @@ public class TrendsPresenterTest {
         verify(viewMock, never()).setErrorVisibility(anyBoolean());
         verify(viewMock, never()).setProgressBarsVisibility(anyBoolean());
         verify(viewMock, never()).setChartsVisibility(anyBoolean());
-        verify(viewMock, never()).setChartsData(any(), any(), any());
+        verify(viewMock, never()).setLineChartData(any(), any());
+        verify(viewMock, never()).setBarChartData(any(), any());
 
     }
 
@@ -124,7 +121,8 @@ public class TrendsPresenterTest {
         verify(viewMock, atLeastOnce()).setErrorVisibility(false);
         verify(viewMock, atLeastOnce()).setProgressBarsVisibility(false);
         verify(viewMock, atLeastOnce()).setChartsVisibility(true);
-        verify(viewMock, atMostOnce()).setChartsData(any(), any(), eq(dateDays) );
+        verify(viewMock, atLeastOnce()).setLineChartData(any(), eq(dateDaysAll) );
+        verify(viewMock, atLeastOnce()).setBarChartData(any(), eq(dateDaysDaily));
 
     }
 
@@ -144,7 +142,8 @@ public class TrendsPresenterTest {
         verify(viewMock, atLeastOnce()).setProgressBarsVisibility(true);
         verify(viewMock, atLeastOnce()).setProgressBarsVisibility(false);
         verify(viewMock, atLeastOnce()).setChartsVisibility(true);
-        verify(viewMock, atMostOnce()).setChartsData(any(), any(), eq(dateDays));
+        verify(viewMock, atLeastOnce()).setLineChartData(any(), eq(dateDaysAll));
+        verify(viewMock, atLeastOnce()).setBarChartData(any(), eq(dateDaysDaily));
 
     }
 

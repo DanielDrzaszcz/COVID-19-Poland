@@ -84,9 +84,13 @@ public class TrendsFragment extends Fragment implements TrendsFragmentIF {
     }
 
     @Override
-    public void setChartsData(BarData barChartData, LineData lineChartData, String[] labelsData) {
-        chartBarConfig(barChartData, labelsData);
+    public void setLineChartData(LineData lineChartData, String[] labelsData) {
         lineBarConfig(lineChartData, labelsData);
+    }
+
+    @Override
+    public void setBarChartData(BarData barChartData, String[] labelsData) {
+        chartBarConfig(barChartData, labelsData);
     }
 
     @Override

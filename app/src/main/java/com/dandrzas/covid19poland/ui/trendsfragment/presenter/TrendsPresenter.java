@@ -57,11 +57,13 @@ public class TrendsPresenter implements TrendsPresenterIF {
 
                             LineData lineData = hashMapToLineData(covid19Data.getHistoryCasesAll());
                             BarData barData = hashMapToBarData(covid19Data.getHistoryCasesDaily());
-                            String[] dateLabels = Arrays.copyOf(covid19Data.getHistoryCasesAll().keySet().toArray(), covid19Data.getHistoryCasesAll().keySet().toArray().length, String[].class);
+                            String[] lineChartDateLabels = Arrays.copyOf(covid19Data.getHistoryCasesAll().keySet().toArray(), covid19Data.getHistoryCasesAll().keySet().toArray().length, String[].class);
+                            String[] barChartDateLabels = Arrays.copyOf(covid19Data.getHistoryCasesDaily().keySet().toArray(),covid19Data.getHistoryCasesDaily().keySet().toArray().length, String[].class);
 
                             view.setProgressBarsVisibility(false);
                             view.setChartsVisibility(true);
-                            view.setChartsData(barData, lineData,  dateLabels);
+                            view.setLineChartData(lineData,  lineChartDateLabels);
+                            view.setBarChartData(barData,  barChartDateLabels);
                         }
 
                         @Override
@@ -88,11 +90,20 @@ public class TrendsPresenter implements TrendsPresenterIF {
         view.setChartsVisibility(true);
 
         Covid19Data data = remoteDataSource.getData();
-        if(data.getHistoryCasesAll() != null){
-            LineData lineData = hashMapToLineData(data.getHistoryCasesAll());
-            BarData barData = hashMapToBarData(data.getHistoryCasesDaily());
-            String[] dateLabels = Arrays.copyOf(data.getHistoryCasesDaily().keySet().toArray(), data.getHistoryCasesDaily().keySet().toArray().length, String[].class);
-            view.setChartsData(barData, lineData,  dateLabels);
+        if(data != null){
+            if(data.getHistoryCasesAll() != null) {
+
+                LineData lineData = hashMapToLineData(data.getHistoryCasesAll());
+                BarData barData = hashMapToBarData(data.getHistoryCasesDaily());
+                String[] lineChartDateLabels = Arrays.copyOf(data.getHistoryCasesAll().keySet().toArray(), data.getHistoryCasesAll().keySet().toArray().length, String[].class);
+                String[] barChartDateLabels = Arrays.copyOf(data.getHistoryCasesDaily().keySet().toArray(), data.getHistoryCasesDaily().keySet().toArray().length, String[].class);
+
+                view.setLineChartData(lineData, lineChartDateLabels);
+                view.setBarChartData(barData, barChartDateLabels);
+            }
+            else{
+                refreshData(isInternetConnection, scheduler);
+            }
         }
         else{
             refreshData(isInternetConnection, scheduler);

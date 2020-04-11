@@ -74,10 +74,10 @@ public class Covid19Data {
         HashMap<String, Integer> dailyCases = new LinkedHashMap<>();
         String[] keysDailyCases = Arrays.copyOf(historyCasesAll.keySet().toArray(), historyCasesAll.keySet().toArray().length, String[].class);
 
-        dailyCases.put(keysDailyCases[0], 0);
-        for(int i=1; i<keysDailyCases.length; i++){
-            int dailyCase = historyCasesAll.get(keysDailyCases[i]) - historyCasesAll.get(keysDailyCases[i-1]);
-                    dailyCases.put(keysDailyCases[i], dailyCase);
+       // dailyCases.put(keysDailyCases[0], 0);
+        for(int i=0; i<keysDailyCases.length-1; i++){
+            int dailyCase = historyCasesAll.get(keysDailyCases[i+1]) - historyCasesAll.get(keysDailyCases[i]) ;
+                    dailyCases.put(keysDailyCases[i+1], dailyCase);
     }
         return dailyCases;
     }
