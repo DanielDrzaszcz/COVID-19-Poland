@@ -2,7 +2,8 @@ package com.dandrzas.covid19poland.ui.trendsfragment.presenter;
 
 import android.graphics.Color;
 
-import com.dandrzas.covid19poland.data.domain.Covid19Data;
+import com.dandrzas.covid19poland.data.domain.Covid19HistoricalData;
+import com.dandrzas.covid19poland.data.domain.Covid19TodayData;
 import com.dandrzas.covid19poland.data.remotedatasource.RemoteDataSourceIF;
 import com.dandrzas.covid19poland.ui.trendsfragment.view.TrendsFragmentIF;
 import com.github.mikephil.charting.data.BarData;
@@ -33,9 +34,9 @@ public class TrendsPresenter implements TrendsPresenterIF {
     @Override
     public void refreshData(boolean isInternetConnection, Scheduler scheduler) {
         if (isInternetConnection) {
-            remoteDataSource.downloadData()
+            remoteDataSource.downloadHistoricalData()
                     .subscribeOn(scheduler)
-                    .subscribe(new Observer<Covid19Data>() {
+                    .subscribe(new Observer<Covid19HistoricalData>() {
                         Disposable disposable;
 
                         @Override
@@ -47,23 +48,17 @@ public class TrendsPresenter implements TrendsPresenterIF {
                         }
 
                         @Override
-                        public void onNext(Covid19Data covid19Data) {
-                            ArrayList<String> countersData = new ArrayList<String>();
-                            countersData.add(0, String.valueOf(covid19Data.getCasesAll()));
-                            countersData.add(1, String.valueOf(covid19Data.getCasesToday()));
-                            countersData.add(2, String.valueOf(covid19Data.getCuredAll()));
-                            countersData.add(3,String.valueOf(covid19Data.getDeathsAll()));
-                            countersData.add(4,String.valueOf(covid19Data.getDeathsToday()));
+                        public void onNext(Covid19HistoricalData ccvid19HistoricalData) {
 
-                            LineData lineData = hashMapToLineData(covid19Data.getHistoryCasesAll());
-                            BarData barData = hashMapToBarData(covid19Data.getHistoryCasesDaily());
-                            String[] lineChartDateLabels = Arrays.copyOf(covid19Data.getHistoryCasesAll().keySet().toArray(), covid19Data.getHistoryCasesAll().keySet().toArray().length, String[].class);
-                            String[] barChartDateLabels = Arrays.copyOf(covid19Data.getHistoryCasesDaily().keySet().toArray(),covid19Data.getHistoryCasesDaily().keySet().toArray().length, String[].class);
+                            LineData lineData = hashMapToLineData(ccvid19HistoricalData.getHistoryCasesAll());
+                            BarData barData = hashMapToBarData(ccvid19HistoricalData.getHistoryCasesDaily());
+                            String[] lineChartDateLabels = Arrays.copyOf(ccvid19HistoricalData.getHistoryCasesAll().keySet().toArray(), ccvid19HistoricalData.getHistoryCasesAll().keySet().toArray().length, String[].class);
+                            String[] barChartDateLabels = Arrays.copyOf(ccvid19HistoricalData.getHistoryCasesDaily().keySet().toArray(), ccvid19HistoricalData.getHistoryCasesDaily().keySet().toArray().length, String[].class);
 
                             view.setProgressBarsVisibility(false);
                             view.setChartsVisibility(true);
-                            view.setLineChartData(lineData,  lineChartDateLabels);
-                            view.setBarChartData(barData,  barChartDateLabels);
+                            view.setLineChartDataAnimated(lineData,  lineChartDateLabels);
+                            view.setBarChartDataAnimated(barData,  barChartDateLabels);
                         }
 
                         @Override
@@ -89,7 +84,7 @@ public class TrendsPresenter implements TrendsPresenterIF {
         view.setErrorVisibility(false);
         view.setChartsVisibility(true);
 
-        Covid19Data data = remoteDataSource.getData();
+        Covid19HistoricalData data = remoteDataSource.getHistoricalData();
         if(data != null){
             if(data.getHistoryCasesAll() != null) {
 

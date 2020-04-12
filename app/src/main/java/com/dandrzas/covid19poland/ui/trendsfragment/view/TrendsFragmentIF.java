@@ -11,5 +11,6 @@ public interface TrendsFragmentIF {
     void setErrorVisibility(boolean visibilityEnable);
     void setProgressBarsVisibility(boolean visibilityEnable);
     void showConnectionAlert();
-
+    void setLineChartDataAnimated(LineData lineChartData, String[] labelsData);
+    void setBarChartDataAnimated(BarData barChartData, String[] labelsData);
 }

@@ -94,6 +94,18 @@ public class TrendsFragment extends Fragment implements TrendsFragmentIF {
     }
 
     @Override
+    public void setLineChartDataAnimated(LineData lineChartData, String[] labelsData) {
+        lineBarConfig(lineChartData, labelsData);
+        chartLine.animateY(1000);
+    }
+
+    @Override
+    public void setBarChartDataAnimated(BarData barChartData, String[] labelsData) {
+        chartBarConfig(barChartData, labelsData);
+        chartBar.animateY(1000);
+    }
+
+    @Override
     public void setChartsVisibility(boolean visibilityEnable) {
        if(visibilityEnable){
            chartLine.setVisibility(View.VISIBLE);
@@ -138,58 +150,56 @@ public class TrendsFragment extends Fragment implements TrendsFragmentIF {
         builder.create().show();
     }
 
-
     private void lineBarConfig(LineData lineChartData, String[] labelsData){
 
-        chartLine.setData(lineChartData);
-        chartLine.setBorderColor(Color.WHITE);
-        chartLine.setNoDataTextColor(Color.WHITE);
-        chartLine.setPinchZoom(false);
-        chartLine.moveViewToX(chartLine.getData().getXMax()-10);
-
-        chartLine.getAxis(YAxis.AxisDependency.LEFT).setAxisMinimum(0f);
-        chartLine.getAxisLeft().setTextColor(Color.WHITE);
-        chartLine.getAxisRight().setTextColor(Color.WHITE);
-        chartLine.getDescription().setEnabled(false);
-        chartLine.getXAxis().setDrawLabels(true);
-        chartLine.getXAxis().setDrawAxisLine(true);
-        chartLine.getXAxis().setLabelRotationAngle(270);
         chartLine.getXAxis().setValueFormatter(new ValueFormatter(){
             @Override
             public String getAxisLabel(float value, AxisBase axis) {
                 return labelsData[(int)value];
             }
         } );
+        chartLine.getXAxis().setLabelRotationAngle(270);
+        chartLine.getLegend().setEnabled(false);
+        chartLine.setData(lineChartData);
+        chartLine.setBorderColor(Color.WHITE);
+        chartLine.setNoDataTextColor(Color.WHITE);
+        chartLine.setPinchZoom(false);
+        //chartLine.moveViewToX(chartLine.getData().getXMax()-10);
+        chartLine.getAxis(YAxis.AxisDependency.LEFT).setAxisMinimum(0f);
+        chartLine.getAxisLeft().setTextColor(Color.WHITE);
+        chartLine.getAxisRight().setTextColor(Color.WHITE);
+        chartLine.getDescription().setEnabled(false);
+        chartLine.getXAxis().setDrawLabels(true);
+        chartLine.getXAxis().setDrawAxisLine(true);
         chartLine.getXAxis().setTextColor(Color.WHITE);
         chartLine.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         chartLine.getXAxis().setGranularity(1f);
-        chartLine.getLegend().setEnabled(false);
-        chartLine.invalidate();
     }
 
     private void chartBarConfig(BarData barChartData, String[] labelsDate){
 
-        chartBar.setData(barChartData);
-        chartBar.setBorderColor(Color.WHITE);
-        chartBar.setNoDataTextColor(Color.WHITE);
-        chartBar.setPinchZoom(false);
-        chartBar.moveViewToX(chartBar.getData().getXMax()-10);
-        chartBar.getAxisLeft().setTextColor(Color.WHITE);
-        chartBar.getAxisRight().setTextColor(Color.WHITE);
-        chartBar.getDescription().setEnabled(false);
-        chartBar.getXAxis().setDrawLabels(true);
-        chartBar.getXAxis().setDrawAxisLine(true);
-        chartBar.getXAxis().setLabelRotationAngle(270);
         chartBar.getXAxis().setValueFormatter(new ValueFormatter(){
             @Override
             public String getAxisLabel(float value, AxisBase axis) {
                 return labelsDate[(int)value];
             }
-        } );        chartBar.getXAxis().setTextColor(Color.WHITE);
+        } );
+        chartBar.getXAxis().setLabelRotationAngle(270);
+        chartBar.getLegend().setEnabled(false);
+        chartBar.setData(barChartData);
+        chartBar.setBorderColor(Color.WHITE);
+        chartBar.setNoDataTextColor(Color.WHITE);
+        chartBar.setPinchZoom(false);
+        //chartBar.moveViewToX(chartBar.getData().getXMax()-10);
+        chartBar.getAxisLeft().setTextColor(Color.WHITE);
+        chartBar.getAxisRight().setTextColor(Color.WHITE);
+        chartBar.getDescription().setEnabled(false);
+        chartBar.getXAxis().setDrawLabels(true);
+        chartBar.getXAxis().setDrawAxisLine(true);
+        chartBar.getXAxis().setTextColor(Color.WHITE);
         chartBar.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         chartBar.getXAxis().setGranularity(1f);
-        chartBar.getLegend().setEnabled(false);
-        chartBar.invalidate();
+
     }
 
     private boolean checkInternetConnection(){

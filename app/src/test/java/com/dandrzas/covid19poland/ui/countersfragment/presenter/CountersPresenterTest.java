@@ -1,8 +1,7 @@
 package com.dandrzas.covid19poland.ui.countersfragment.presenter;
 
-import com.dandrzas.covid19poland.data.domain.Covid19Data;
+import com.dandrzas.covid19poland.data.domain.Covid19TodayData;
 import com.dandrzas.covid19poland.data.remotedatasource.RemoteDataSource;
-import com.dandrzas.covid19poland.ui.countersfragment.presenter.CountersPresenter;
 import com.dandrzas.covid19poland.ui.countersfragment.view.CountersFragment;
 
 import org.junit.Before;
@@ -32,7 +31,7 @@ public class CountersPresenterTest {
     private final Integer TEST_ALL_DEATHS = 65;
     private final Integer TEST_TODAY_DEATHS = 5;
     private CountersPresenter presenter;
-    private Covid19Data data = new Covid19Data();
+    private Covid19TodayData data = new Covid19TodayData();
     private ArrayList<String> dataList = new ArrayList<>();
 
     @Mock
@@ -60,7 +59,7 @@ public class CountersPresenterTest {
     public void refreshDataTestWhenInternetEnableAndResponseOK() {
 
         // Config
-        when(remoteDataSourceMock.downloadData()).thenReturn(Observable.just(data));
+        when(remoteDataSourceMock.downloadTodayData()).thenReturn(Observable.just(data));
 
         // Trigger
         presenter.refreshData(true, Schedulers.trampoline());
@@ -79,7 +78,7 @@ public class CountersPresenterTest {
     public void refreshDataTestWhenInternetEnableAndResponseNG() {
 
         // Config
-        when(remoteDataSourceMock.downloadData()).thenReturn(Observable.error(new Throwable()));
+        when(remoteDataSourceMock.downloadTodayData()).thenReturn(Observable.error(new Throwable()));
 
         // Trigger
         presenter.refreshData(true, Schedulers.trampoline());
@@ -112,7 +111,7 @@ public class CountersPresenterTest {
     public void initDataTestWhenDataIsAvailable() {
 
         // Config
-        when(remoteDataSourceMock.getData()).thenReturn(data);
+        when(remoteDataSourceMock.getTodayData()).thenReturn(data);
 
         // Trigger
         presenter.initData(true, Schedulers.trampoline());
@@ -130,8 +129,8 @@ public class CountersPresenterTest {
     public void initDataTestWhenDataIsUnavailable() {
 
         // Config
-        when(remoteDataSourceMock.getData()).thenReturn(null);
-        when(remoteDataSourceMock.downloadData()).thenReturn(Observable.just(data));
+        when(remoteDataSourceMock.getTodayData()).thenReturn(null);
+        when(remoteDataSourceMock.downloadTodayData()).thenReturn(Observable.just(data));
 
 
         // Trigger

@@ -8,14 +8,14 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.dandrzas.covid19poland.data.domain.Covid19Data;
+import com.dandrzas.covid19poland.data.domain.Covid19HistoricalData;
+import com.dandrzas.covid19poland.data.domain.Covid19TodayData;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 import io.reactivex.Observable;
 
@@ -24,8 +24,8 @@ public class RemoteDataSource implements RemoteDataSourceIF {
     private static RequestQueue queue;
     private static final String URLTodayData = "https://corona.lmao.ninja/countries/Poland";
     private final String URLHistoricalData = "https://corona.lmao.ninja/v2/historical/Poland";
-    private static Covid19Data data;
-    private static boolean request1DoneFlag, request2DoneFlag;
+    private static Covid19TodayData dataToday;
+    private static Covid19HistoricalData dataHistorical;
 
     private RemoteDataSource() {
     }
@@ -40,46 +40,57 @@ public class RemoteDataSource implements RemoteDataSourceIF {
     }
 
     @Override
-    public Observable<Covid19Data> downloadData() {
-
-        if (data == null) data = new Covid19Data();
-        request1DoneFlag = false;
-        request2DoneFlag = false;
+    public Observable<Covid19TodayData> downloadTodayData() {
 
         return  Observable.create(emitter -> {
 
                 // Request a response from the provided URLTodayData.
-                JsonObjectRequest jsonObjectRequest1 = new JsonObjectRequest(Request.Method.GET, URLTodayData, null,
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URLTodayData, null,
                         (response) -> {
                             VolleyLog.d(response.toString());
                             try {
-                                data.setCasesAll((int)response.get("cases"));
-                                data.setCasesToday((int)response.get("todayCases"));
-                                data.setCuredAll((int)response.get("recovered"));
-                                data.setDeathsAll((int)response.get("deaths"));
-                                data.setDeathsToday((int)response.get("todayDeaths"));
 
-                                request1DoneFlag = true;
-                                if(request2DoneFlag){
-                                    emitter.onNext(data);
-                                    emitter.onComplete();
-                                }
+                                if (dataToday == null) dataToday = new Covid19TodayData();
+                                dataToday.setCasesAll((int)response.get("cases"));
+                                dataToday.setCasesToday((int)response.get("todayCases"));
+                                dataToday.setCuredAll((int)response.get("recovered"));
+                                dataToday.setDeathsAll((int)response.get("deaths"));
+                                dataToday.setDeathsToday((int)response.get("todayDeaths"));
+
+                                emitter.onNext(dataToday);
+                                emitter.onComplete();
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
+                                dataToday = null;
                                 emitter.onError(e);
-
                             }
                         },
                         (error) -> {
                             emitter.onError(error);
                         });
-                queue.add(jsonObjectRequest1);
+                queue.add(jsonObjectRequest);
 
-            JsonObjectRequest jsonObjectRequest2 = new JsonObjectRequest(Request.Method.GET, URLHistoricalData, null,
+        });
+    }
+
+    @Override
+    public Covid19TodayData getTodayData() {
+        return dataToday;
+    }
+
+    @Override
+    public Observable<Covid19HistoricalData> downloadHistoricalData() {
+
+        return Observable.create((emitter -> {
+
+            // Request a response from the provided URLHistoricalData.
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URLHistoricalData, null,
                     (response) -> {
                         VolleyLog.d(response.toString());
                         try {
+
+                            if (dataHistorical == null) dataHistorical = new Covid19HistoricalData();
                             JSONObject timeline = (JSONObject)response.get("timeline");
                             JSONObject cases = (JSONObject) timeline.get("cases");
                             Iterator<String> casesNames = cases.keys();
@@ -90,31 +101,28 @@ public class RemoteDataSource implements RemoteDataSourceIF {
                                 casesHistoryMap.put(key, (Integer)cases.get(key));
                             }
 
-                            Log.d("APIv2Test: ", casesHistoryMap.keySet().toString());
-                            data.setHistoryCasesAll(casesHistoryMap);
+                            dataHistorical.setHistoryCasesAll(casesHistoryMap);
 
-                            request2DoneFlag = true;
-                            if(request1DoneFlag){
-                                emitter.onNext(data);
-                                emitter.onComplete();
-                            }
+                            emitter.onNext(dataHistorical);
+                            emitter.onComplete();
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            dataHistorical = null;
                             emitter.onError(e);
-
                         }
                     },
                     (error) -> {
                         emitter.onError(error);
                     });
-            queue.add(jsonObjectRequest2);
+            queue.add(jsonObjectRequest);
+        }));
 
-        });
     }
 
     @Override
-    public Covid19Data getData() {
-        return data;
+    public Covid19HistoricalData getHistoricalData() {
+        return dataHistorical;
     }
 }

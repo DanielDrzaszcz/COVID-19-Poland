@@ -1,6 +1,6 @@
 package com.dandrzas.covid19poland.ui.countersfragment.presenter;
 
-import com.dandrzas.covid19poland.data.domain.Covid19Data;
+import com.dandrzas.covid19poland.data.domain.Covid19TodayData;
 import com.dandrzas.covid19poland.data.remotedatasource.RemoteDataSourceIF;
 import com.dandrzas.covid19poland.ui.countersfragment.view.CountersFragmentIF;
 import java.util.ArrayList;
@@ -21,9 +21,9 @@ public class CountersPresenter implements CountersPresenterIF {
     @Override
     public void refreshData(boolean isInternetConnection, Scheduler scheduler) {
         if (isInternetConnection) {
-            remoteDataSource.downloadData()
+            remoteDataSource.downloadTodayData()
                     .subscribeOn(scheduler)
-                    .subscribe(new Observer<Covid19Data>() {
+                    .subscribe(new Observer<Covid19TodayData>() {
                         Disposable disposable;
 
                         @Override
@@ -34,13 +34,13 @@ public class CountersPresenter implements CountersPresenterIF {
                         }
 
                         @Override
-                        public void onNext(Covid19Data covid19Data) {
+                        public void onNext(Covid19TodayData covid19TodayData) {
                             ArrayList<String> countersData = new ArrayList<String>();
-                            countersData.add(0, String.valueOf(covid19Data.getCasesAll()));
-                            countersData.add(1, String.valueOf(covid19Data.getCasesToday()));
-                            countersData.add(2, String.valueOf(covid19Data.getCuredAll()));
-                            countersData.add(3,String.valueOf(covid19Data.getDeathsAll()));
-                            countersData.add(4,String.valueOf(covid19Data.getDeathsToday()));
+                            countersData.add(0, String.valueOf(covid19TodayData.getCasesAll()));
+                            countersData.add(1, String.valueOf(covid19TodayData.getCasesToday()));
+                            countersData.add(2, String.valueOf(covid19TodayData.getCuredAll()));
+                            countersData.add(3,String.valueOf(covid19TodayData.getDeathsAll()));
+                            countersData.add(4,String.valueOf(covid19TodayData.getDeathsToday()));
                             view.setProgressBarsVisibility(false);
                             view.setCountersData(countersData);
                         }
@@ -63,7 +63,7 @@ public class CountersPresenter implements CountersPresenterIF {
 
     @Override
     public void initData(boolean isInternetConnection, Scheduler scheduler) {
-        Covid19Data data = remoteDataSource.getData();
+        Covid19TodayData data = remoteDataSource.getTodayData();
         if(data != null){
             ArrayList<String> countersData = new ArrayList<String>();
             countersData.add(0, String.valueOf(data.getCasesAll()));

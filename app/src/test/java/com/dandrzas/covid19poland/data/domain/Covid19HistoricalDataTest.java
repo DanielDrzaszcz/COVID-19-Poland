@@ -6,15 +6,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
 
-public class Covid19DataTest {
-    private Covid19Data data = new Covid19Data();
-    private final int TEST_ALL_CASES = 1;
-    private final int TEST_TODAY_CASES = 2;
-    private final int TEST_ALL_CURED = 3;
-    private final int TEST_ALL_DEATHS = 4;
-    private final int TEST_TODAY_DEATHS = 5;
+public class Covid19HistoricalDataTest {
+    private Covid19HistoricalData data = new Covid19HistoricalData();
     private final String[] datesAll = {"4/01/20", "4/02/20", "4/03/20", "4/04/20", "4/05/20", "4/06/20", "4/07/20", "4/08/20", "4/09/20"};
     private final String[] datesDaily = {"4/02/20", "4/03/20", "4/04/20", "4/05/20", "4/06/20", "4/07/20", "4/08/20", "4/09/20"};
     private final Integer[] casesAll= {2554, 2946, 3383, 3627, 4102, 4413, 4848, 5205, 5575};
@@ -22,26 +17,15 @@ public class Covid19DataTest {
     private HashMap<String, Integer> casesHistoryAll = new LinkedHashMap<>();
 
     @Test
-    public void setAndGetTest() {
+    public void setAndGetTest(){
 
         // Set the data
-        data.setCasesAll(TEST_ALL_CASES);
-        data.setCasesToday(TEST_TODAY_CASES);
-        data.setCuredAll(TEST_ALL_CURED);
-        data.setDeathsAll(TEST_ALL_DEATHS);
-        data.setDeathsToday(TEST_TODAY_DEATHS);
         for(int i=0; i<casesAll.length; i++){
             casesHistoryAll.put(datesAll[i], casesAll[i]);
         }
         data.setHistoryCasesAll(casesHistoryAll);
 
         // Verify
-        assertEquals(TEST_ALL_CASES, data.getCasesAll());
-        assertEquals(TEST_TODAY_CASES, data.getCasesToday());
-        assertEquals(TEST_ALL_CURED, data.getCuredAll());
-        assertEquals(TEST_ALL_DEATHS, data.getDeathsAll());
-        assertEquals(TEST_TODAY_DEATHS, data.getDeathsToday());
-
         assertArrayEquals(datesAll, data.getHistoryCasesAll().keySet().toArray());
         assertArrayEquals(datesDaily, data.getHistoryCasesDaily().keySet().toArray());
 

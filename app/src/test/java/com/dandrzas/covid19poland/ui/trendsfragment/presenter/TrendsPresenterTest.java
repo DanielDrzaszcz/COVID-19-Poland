@@ -1,6 +1,7 @@
 package com.dandrzas.covid19poland.ui.trendsfragment.presenter;
 
-import com.dandrzas.covid19poland.data.domain.Covid19Data;
+import com.dandrzas.covid19poland.data.domain.Covid19HistoricalData;
+import com.dandrzas.covid19poland.data.domain.Covid19TodayData;
 import com.dandrzas.covid19poland.data.remotedatasource.RemoteDataSource;
 import com.dandrzas.covid19poland.ui.trendsfragment.view.TrendsFragment;
 
@@ -20,7 +21,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.atMostOnce;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -30,7 +30,7 @@ public class TrendsPresenterTest {
 
     private HashMap<String, Integer> casesHistoryMap = new LinkedHashMap<>();
     private TrendsPresenter  presenter;
-    private Covid19Data data = new Covid19Data();
+    private Covid19HistoricalData data = new Covid19HistoricalData();
     private String[] dateDaysAll = {"3/25/20", "3/26/20", "3/27/20", "3/28/20", "3/29/20"};
     private String[] dateDaysDaily = {"3/26/20", "3/27/20", "3/28/20", "3/29/20"};
 
@@ -55,7 +55,7 @@ public class TrendsPresenterTest {
     public void refreshDataTestWhenInternetEnableAndResponseOK() {
 
         // Config
-        when(remoteDataSourceMock.downloadData()).thenReturn(Observable.just(data));
+        when(remoteDataSourceMock.downloadHistoricalData()).thenReturn(Observable.just(data));
 
         // Trigger
         presenter.refreshData(true, Schedulers.trampoline());
@@ -66,8 +66,8 @@ public class TrendsPresenterTest {
         verify(viewMock, atLeastOnce()).setProgressBarsVisibility(true);
         verify(viewMock, atLeastOnce()).setProgressBarsVisibility(false);
         verify(viewMock, atLeastOnce()).setChartsVisibility(true);
-        verify(viewMock, atLeastOnce()).setLineChartData(any(), eq(dateDaysAll));
-        verify(viewMock, atLeastOnce()).setBarChartData(any(), eq(dateDaysDaily));
+        verify(viewMock, atLeastOnce()).setLineChartDataAnimated(any(), eq(dateDaysAll));
+        verify(viewMock, atLeastOnce()).setBarChartDataAnimated(any(), eq(dateDaysDaily));
 
     }
 
@@ -75,7 +75,7 @@ public class TrendsPresenterTest {
     public void refreshDataTestWhenInternetEnableAndResponseNG() {
 
         // Config
-        when(remoteDataSourceMock.downloadData()).thenReturn(Observable.error(new Throwable()));
+        when(remoteDataSourceMock.downloadHistoricalData()).thenReturn(Observable.error(new Throwable()));
 
         // Trigger
         presenter.refreshData(true, Schedulers.trampoline());
@@ -86,8 +86,8 @@ public class TrendsPresenterTest {
         verify(viewMock, atLeastOnce()).setProgressBarsVisibility(true);
         verify(viewMock, atLeastOnce()).setProgressBarsVisibility(false);
         verify(viewMock, atLeastOnce()).setChartsVisibility(false);
-        verify(viewMock, never()).setLineChartData(any(), any());
-        verify(viewMock, never()).setBarChartData(any(), any());
+        verify(viewMock, never()).setLineChartDataAnimated(any(), any());
+        verify(viewMock, never()).setBarChartDataAnimated(any(), any());
 
     }
 
@@ -102,8 +102,8 @@ public class TrendsPresenterTest {
         verify(viewMock, never()).setErrorVisibility(anyBoolean());
         verify(viewMock, never()).setProgressBarsVisibility(anyBoolean());
         verify(viewMock, never()).setChartsVisibility(anyBoolean());
-        verify(viewMock, never()).setLineChartData(any(), any());
-        verify(viewMock, never()).setBarChartData(any(), any());
+        verify(viewMock, never()).setLineChartDataAnimated(any(), any());
+        verify(viewMock, never()).setBarChartDataAnimated(any(), any());
 
     }
 
@@ -111,7 +111,7 @@ public class TrendsPresenterTest {
     public void initDataTestWhenDataIsAvailable() {
 
         // Config
-        when(remoteDataSourceMock.getData()).thenReturn(data);
+        when(remoteDataSourceMock.getHistoricalData()).thenReturn(data);
 
         // Trigger
         presenter.initData(true, Schedulers.trampoline());
@@ -130,8 +130,7 @@ public class TrendsPresenterTest {
     public void initDataTestWhenDataIsUnavailable() {
 
         // Config
-        when(remoteDataSourceMock.getData()).thenReturn(null);
-        when(remoteDataSourceMock.downloadData()).thenReturn(Observable.just(data));
+        when(remoteDataSourceMock.downloadHistoricalData()).thenReturn(Observable.just(data));
 
         // Trigger
         presenter.initData(true, Schedulers.trampoline());
@@ -142,8 +141,8 @@ public class TrendsPresenterTest {
         verify(viewMock, atLeastOnce()).setProgressBarsVisibility(true);
         verify(viewMock, atLeastOnce()).setProgressBarsVisibility(false);
         verify(viewMock, atLeastOnce()).setChartsVisibility(true);
-        verify(viewMock, atLeastOnce()).setLineChartData(any(), eq(dateDaysAll));
-        verify(viewMock, atLeastOnce()).setBarChartData(any(), eq(dateDaysDaily));
+        verify(viewMock, atLeastOnce()).setLineChartDataAnimated(any(), eq(dateDaysAll));
+        verify(viewMock, atLeastOnce()).setBarChartDataAnimated(any(), eq(dateDaysDaily));
 
     }
 
