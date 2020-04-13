@@ -29,6 +29,8 @@ import static org.mockito.Mockito.when;
 public class TrendsPresenterTest {
 
     private HashMap<String, Integer> casesHistoryMap = new LinkedHashMap<>();
+    private HashMap<String, Integer> deathsHistoryMap = new LinkedHashMap<>();
+    private HashMap<String, Integer> curedHistoryMap = new LinkedHashMap<>();
     private TrendsPresenter  presenter;
     private Covid19HistoricalData data = new Covid19HistoricalData();
     private String[] dateDaysAll = {"3/25/20", "3/26/20", "3/27/20", "3/28/20", "3/29/20"};
@@ -43,12 +45,27 @@ public class TrendsPresenterTest {
     @Before
     public void setUp(){
         presenter = new TrendsPresenter(viewMock, remoteDataSourceMock);
+
         casesHistoryMap.put(dateDaysAll[0], 150);
         casesHistoryMap.put(dateDaysAll[1], 170);
         casesHistoryMap.put(dateDaysAll[2], 168);
         casesHistoryMap.put(dateDaysAll[3], 249);
         casesHistoryMap.put(dateDaysAll[4], 224);
         data.setHistoryCasesAll(casesHistoryMap);
+
+        deathsHistoryMap.put(dateDaysAll[0], 22);
+        deathsHistoryMap.put(dateDaysAll[1], 42);
+        deathsHistoryMap.put(dateDaysAll[2], 67);
+        deathsHistoryMap.put(dateDaysAll[3], 99);
+        deathsHistoryMap.put(dateDaysAll[4], 155);
+        data.setHistoryDeathsAll(deathsHistoryMap);
+
+        curedHistoryMap.put(dateDaysAll[0], 1);
+        curedHistoryMap.put(dateDaysAll[1], 14);
+        curedHistoryMap.put(dateDaysAll[2], 25);
+        curedHistoryMap.put(dateDaysAll[3], 67);
+        curedHistoryMap.put(dateDaysAll[4], 98);
+        data.setHistoryCuredAll(curedHistoryMap);
     }
 
     @Test

@@ -92,6 +92,8 @@ public class RemoteDataSource implements RemoteDataSourceIF {
 
                             if (dataHistorical == null) dataHistorical = new Covid19HistoricalData();
                             JSONObject timeline = (JSONObject)response.get("timeline");
+
+                            // get cases history
                             JSONObject cases = (JSONObject) timeline.get("cases");
                             Iterator<String> casesNames = cases.keys();
                             HashMap<String,Integer> casesHistoryMap = new LinkedHashMap<>();
@@ -102,6 +104,30 @@ public class RemoteDataSource implements RemoteDataSourceIF {
                             }
 
                             dataHistorical.setHistoryCasesAll(casesHistoryMap);
+
+                            // get deaths history
+                            JSONObject deaths = (JSONObject) timeline.get("deaths");
+                            Iterator<String> deathsNames = deaths.keys();
+                            HashMap<String,Integer> deathsHistoryMap = new LinkedHashMap<>();
+
+                            while(deathsNames.hasNext()){
+                                String key = deathsNames.next();
+                                deathsHistoryMap.put(key, (Integer)deaths.get(key));
+                            }
+
+                            dataHistorical.setHistoryDeathsAll(deathsHistoryMap);
+
+                            // get cured history
+                            JSONObject cured = (JSONObject) timeline.get("recovered");
+                            Iterator<String> curedNames = cured.keys();
+                            HashMap<String,Integer> curedHistoryMap = new LinkedHashMap<>();
+
+                            while(curedNames.hasNext()){
+                                String key = curedNames.next();
+                                curedHistoryMap.put(key, (Integer)cured.get(key));
+                            }
+
+                            dataHistorical.setHistoryCuredAll(curedHistoryMap);
 
                             emitter.onNext(dataHistorical);
                             emitter.onComplete();

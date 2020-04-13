@@ -177,7 +177,7 @@ public class TrendsFragment extends Fragment implements TrendsFragmentIF {
     }
 
     private void chartBarConfig(BarData barChartData, String[] labelsDate){
-        float groupSpace = 0.25f;
+        float groupSpace = 0.1f;
         float barSpace = 0f;
 
         chartBar.getXAxis().setValueFormatter(new ValueFormatter(){

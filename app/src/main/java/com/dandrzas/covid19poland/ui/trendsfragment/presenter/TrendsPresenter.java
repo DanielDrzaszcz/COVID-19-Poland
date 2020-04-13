@@ -51,8 +51,8 @@ public class TrendsPresenter implements TrendsPresenterIF {
                         @Override
                         public void onNext(Covid19HistoricalData ccvid19HistoricalData) {
 
-                            LineData lineData = hashMapToLineData(ccvid19HistoricalData.getHistoryCasesAll());
-                            BarData barData = hashMapToBarData(ccvid19HistoricalData.getHistoryCasesDaily());
+                            LineData lineData = hashMapToLineData(ccvid19HistoricalData.getHistoryCasesAll(), ccvid19HistoricalData.getHistoryDeathsAll(), ccvid19HistoricalData.getHistoryCuredAll());
+                            BarData barData = hashMapToBarData(ccvid19HistoricalData.getHistoryCasesDaily(), ccvid19HistoricalData.getHistoryDeathsDaily(), ccvid19HistoricalData.getHistoryCuredDaily());
                             String[] lineChartDateLabels = Arrays.copyOf(ccvid19HistoricalData.getHistoryCasesAll().keySet().toArray(), ccvid19HistoricalData.getHistoryCasesAll().keySet().toArray().length, String[].class);
                             String[] barChartDateLabels = Arrays.copyOf(ccvid19HistoricalData.getHistoryCasesDaily().keySet().toArray(), ccvid19HistoricalData.getHistoryCasesDaily().keySet().toArray().length, String[].class);
 
@@ -89,8 +89,8 @@ public class TrendsPresenter implements TrendsPresenterIF {
         if(data != null){
             if(data.getHistoryCasesAll() != null) {
 
-                LineData lineData = hashMapToLineData(data.getHistoryCasesAll());
-                BarData barData = hashMapToBarData(data.getHistoryCasesDaily());
+                LineData lineData = hashMapToLineData(data.getHistoryCasesAll(), data.getHistoryDeathsAll(), data.getHistoryCuredAll());
+                BarData barData = hashMapToBarData(data.getHistoryCasesDaily(), data.getHistoryDeathsDaily(), data.getHistoryCuredDaily());
                 String[] lineChartDateLabels = Arrays.copyOf(data.getHistoryCasesAll().keySet().toArray(), data.getHistoryCasesAll().keySet().toArray().length, String[].class);
                 String[] barChartDateLabels = Arrays.copyOf(data.getHistoryCasesDaily().keySet().toArray(), data.getHistoryCasesDaily().keySet().toArray().length, String[].class);
 
@@ -106,27 +106,28 @@ public class TrendsPresenter implements TrendsPresenterIF {
         }
     }
 
-    private LineData hashMapToLineData(HashMap<String,Integer> hashMap){
+    private LineData hashMapToLineData(HashMap<String,Integer> hashMapCases, HashMap<String,Integer> hashMapDeaths, HashMap<String,Integer> hashMapCured){
         LineData data = new LineData();
 
         // dataset 1
-        String[] mapKeys = Arrays.copyOf(hashMap.keySet().toArray(), hashMap.keySet().toArray().length, String[].class);
+        String[] mapKeys = Arrays.copyOf(hashMapCases.keySet().toArray(), hashMapCases.keySet().toArray().length, String[].class);
         ArrayList<Entry> entries = new ArrayList<>();
         for(int i=0; i<mapKeys.length; i++) {
-            entries.add(new Entry(i,hashMap.get(mapKeys[i])));
+            entries.add(new Entry(i,hashMapCases.get(mapKeys[i])));
         }
         LineDataSet dataset = new LineDataSet(entries, "zachorowania");
         dataset.setValueTextColor(Color.WHITE);
-        dataset.setColor(Color.WHITE);
+        dataset.setColor(Color.LTGRAY);
         dataset.setCircleColor(Color.TRANSPARENT);
-        dataset.setCircleHoleColor(Color.WHITE);
+        dataset.setCircleHoleColor(Color.LTGRAY);
         dataset.setHighlightEnabled(false);
         data.addDataSet(dataset);
 
         // dataset 2
+        String[] mapKeys2 = Arrays.copyOf(hashMapDeaths.keySet().toArray(), hashMapDeaths.keySet().toArray().length, String[].class);
         ArrayList<Entry> entries2 = new ArrayList<>();
-        for(int i=0; i<mapKeys.length; i++) {
-            entries2.add(new Entry(i,100*i));
+        for(int i=0; i<mapKeys2.length; i++) {
+            entries2.add(new Entry(i,hashMapDeaths.get(mapKeys2[i])));
         }
         LineDataSet dataset2 = new LineDataSet(entries2, "zgony");
         dataset2.setValueTextColor(Color.WHITE);
@@ -136,10 +137,11 @@ public class TrendsPresenter implements TrendsPresenterIF {
         dataset2.setHighlightEnabled(false);
         data.addDataSet(dataset2);
 
-        // dataset 2
+        // dataset 3
+        String[] mapKeys3 = Arrays.copyOf(hashMapCured.keySet().toArray(), hashMapCured.keySet().toArray().length, String[].class);
         ArrayList<Entry> entries3 = new ArrayList<>();
-        for(int i=0; i<mapKeys.length; i++) {
-            entries3.add(new Entry(i,20+150*i));
+        for(int i=0; i<mapKeys3.length; i++) {
+            entries3.add(new Entry(i,hashMapCured.get(mapKeys3[i])));
         }
         LineDataSet dataset3 = new LineDataSet(entries3, "wyleczenia");
         dataset3.setValueTextColor(Color.WHITE);
@@ -153,27 +155,28 @@ public class TrendsPresenter implements TrendsPresenterIF {
         return data;
     }
 
-    private BarData hashMapToBarData(HashMap<String,Integer> hashMap){
+    private BarData hashMapToBarData(HashMap<String,Integer> hashMapCases,HashMap<String,Integer> hashMapDeaths, HashMap<String,Integer> hashMapCured){
 
         BarData data = new BarData();
-        data.setBarWidth(0.25f);
+        data.setBarWidth(0.3f);
 
         // dataset 1
-        String[] mapKeys = Arrays.copyOf(hashMap.keySet().toArray(), hashMap.keySet().toArray().length, String[].class);
+        String[] mapKeys = Arrays.copyOf(hashMapCases.keySet().toArray(), hashMapCases.keySet().toArray().length, String[].class);
         ArrayList<BarEntry> entries = new ArrayList<>();
         for(int i=0; i<mapKeys.length; i++) {
-            entries.add(new BarEntry(i, hashMap.get(mapKeys[i])));
+            entries.add(new BarEntry(i, hashMapCases.get(mapKeys[i])));
         }
         BarDataSet dataset = new BarDataSet(entries, "zachorowania");
         dataset.setValueTextColor(Color.WHITE);
-        dataset.setColor(Color.WHITE);
+        dataset.setColor(Color.LTGRAY);
         dataset.setHighlightEnabled(false);
         data.addDataSet(dataset);
 
         // dataset 2
+        String[] mapKeys2 = Arrays.copyOf(hashMapDeaths.keySet().toArray(), hashMapDeaths.keySet().toArray().length, String[].class);
         ArrayList<BarEntry> entries2 = new ArrayList<>();
-        for(int i=0; i<mapKeys.length; i++) {
-            entries2.add(new BarEntry(i, (float)(5*i)));
+        for(int i=0; i<mapKeys2.length; i++) {
+            entries2.add(new BarEntry(i, hashMapDeaths.get(mapKeys2[i])));
         }
         BarDataSet dataset2 = new BarDataSet(entries2, "zgony");
         dataset2.setValueTextColor(Color.WHITE);
@@ -182,9 +185,10 @@ public class TrendsPresenter implements TrendsPresenterIF {
         data.addDataSet(dataset2);
 
         // dataset 3
+        String[] mapKeys3 = Arrays.copyOf(hashMapCured.keySet().toArray(), hashMapCured.keySet().toArray().length, String[].class);
         ArrayList<BarEntry> entries3 = new ArrayList<>();
-        for(int i=0; i<mapKeys.length; i++) {
-            entries3.add(new BarEntry(i, (float)(2*i)));
+        for(int i=0; i<mapKeys3.length; i++) {
+            entries3.add(new BarEntry(i, hashMapCured.get(mapKeys3[i])));
         }
         BarDataSet dataset3 = new BarDataSet(entries3, "wyleczenia");
         dataset3.setValueTextColor(Color.WHITE);
