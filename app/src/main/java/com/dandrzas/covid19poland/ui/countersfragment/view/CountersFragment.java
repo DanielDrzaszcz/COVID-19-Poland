@@ -63,11 +63,10 @@ public class CountersFragment extends Fragment implements CountersFragmentIF {
     @Override
     public void setCountersData(ArrayList<String> countersData) {
         textViewsCounters.get(2).setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorGreen, null));
-        for(String counterData : countersData){
-            textViewsCounters.get(countersData.indexOf(counterData)).setTextSize(TypedValue.COMPLEX_UNIT_PX, coutersTextSize);
-            textViewsCounters.get(countersData.indexOf(counterData)).setText(counterData);
+        for(int i=0; i<countersData.size();i++){
+            textViewsCounters.get(i).setTextSize(TypedValue.COMPLEX_UNIT_PX, coutersTextSize);
+            textViewsCounters.get(i).setText(countersData.get(i));
         }
-
     }
 
     @Override

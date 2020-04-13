@@ -2,6 +2,7 @@ package com.dandrzas.covid19poland.ui.trendsfragment.presenter;
 
 import android.graphics.Color;
 
+import com.dandrzas.covid19poland.R;
 import com.dandrzas.covid19poland.data.domain.Covid19HistoricalData;
 import com.dandrzas.covid19poland.data.domain.Covid19TodayData;
 import com.dandrzas.covid19poland.data.remotedatasource.RemoteDataSourceIF;
@@ -106,38 +107,92 @@ public class TrendsPresenter implements TrendsPresenterIF {
     }
 
     private LineData hashMapToLineData(HashMap<String,Integer> hashMap){
+        LineData data = new LineData();
 
-        ArrayList<Entry> entries = new ArrayList<>();
+        // dataset 1
         String[] mapKeys = Arrays.copyOf(hashMap.keySet().toArray(), hashMap.keySet().toArray().length, String[].class);
-
+        ArrayList<Entry> entries = new ArrayList<>();
         for(int i=0; i<mapKeys.length; i++) {
             entries.add(new Entry(i,hashMap.get(mapKeys[i])));
         }
-
-        LineDataSet dataset = new LineDataSet(entries, "");
+        LineDataSet dataset = new LineDataSet(entries, "zachorowania");
         dataset.setValueTextColor(Color.WHITE);
-        dataset.setColor(Color.RED);
+        dataset.setColor(Color.WHITE);
+        dataset.setCircleColor(Color.TRANSPARENT);
+        dataset.setCircleHoleColor(Color.WHITE);
         dataset.setHighlightEnabled(false);
-        LineData data = new LineData(dataset);
+        data.addDataSet(dataset);
 
+        // dataset 2
+        ArrayList<Entry> entries2 = new ArrayList<>();
+        for(int i=0; i<mapKeys.length; i++) {
+            entries2.add(new Entry(i,100*i));
+        }
+        LineDataSet dataset2 = new LineDataSet(entries2, "zgony");
+        dataset2.setValueTextColor(Color.WHITE);
+        dataset2.setColor(Color.RED);
+        dataset2.setCircleColor(Color.TRANSPARENT);
+        dataset2.setCircleHoleColor(Color.RED);
+        dataset2.setHighlightEnabled(false);
+        data.addDataSet(dataset2);
+
+        // dataset 2
+        ArrayList<Entry> entries3 = new ArrayList<>();
+        for(int i=0; i<mapKeys.length; i++) {
+            entries3.add(new Entry(i,20+150*i));
+        }
+        LineDataSet dataset3 = new LineDataSet(entries3, "wyleczenia");
+        dataset3.setValueTextColor(Color.WHITE);
+        dataset3.setColor(Color.GREEN);
+        dataset3.setCircleColor(Color.TRANSPARENT);
+        dataset3.setCircleHoleColor(Color.GREEN);
+        dataset3.setHighlightEnabled(false);
+        data.addDataSet(dataset3);
+
+        data.setDrawValues(false);
         return data;
     }
 
     private BarData hashMapToBarData(HashMap<String,Integer> hashMap){
 
-        ArrayList<BarEntry> entries = new ArrayList<>();
+        BarData data = new BarData();
+        data.setBarWidth(0.25f);
+
+        // dataset 1
         String[] mapKeys = Arrays.copyOf(hashMap.keySet().toArray(), hashMap.keySet().toArray().length, String[].class);
-
+        ArrayList<BarEntry> entries = new ArrayList<>();
         for(int i=0; i<mapKeys.length; i++) {
-            entries.add(new BarEntry(i,hashMap.get(mapKeys[i])));
+            entries.add(new BarEntry(i, hashMap.get(mapKeys[i])));
         }
-
-        BarDataSet dataset = new BarDataSet(entries, "");
+        BarDataSet dataset = new BarDataSet(entries, "zachorowania");
         dataset.setValueTextColor(Color.WHITE);
-        dataset.setColor(Color.RED);
+        dataset.setColor(Color.WHITE);
         dataset.setHighlightEnabled(false);
-        BarData data = new BarData(dataset);
+        data.addDataSet(dataset);
 
+        // dataset 2
+        ArrayList<BarEntry> entries2 = new ArrayList<>();
+        for(int i=0; i<mapKeys.length; i++) {
+            entries2.add(new BarEntry(i, (float)(5*i)));
+        }
+        BarDataSet dataset2 = new BarDataSet(entries2, "zgony");
+        dataset2.setValueTextColor(Color.WHITE);
+        dataset2.setColor(Color.RED);
+        dataset2.setHighlightEnabled(false);
+        data.addDataSet(dataset2);
+
+        // dataset 3
+        ArrayList<BarEntry> entries3 = new ArrayList<>();
+        for(int i=0; i<mapKeys.length; i++) {
+            entries3.add(new BarEntry(i, (float)(2*i)));
+        }
+        BarDataSet dataset3 = new BarDataSet(entries3, "wyleczenia");
+        dataset3.setValueTextColor(Color.WHITE);
+        dataset3.setColor(Color.GREEN);
+        dataset3.setHighlightEnabled(false);
+        data.addDataSet(dataset3);
+
+        data.setDrawValues(false);
         return data;
     }
 }

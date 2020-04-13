@@ -12,5 +12,8 @@
     <string name="menu_trends">Trendy</string>
     <string name="history_all">Przypadki wszystkie</string>
     <string name="history_daily">Przypadki dziennie</string>
+    <string name="history_legend_cases">zachorowania</string>
+    <string name="history_legend_deaths">zgony</string>
+    <string name="history_legend_cured">wyleczenia</string>
 
 </resources>
