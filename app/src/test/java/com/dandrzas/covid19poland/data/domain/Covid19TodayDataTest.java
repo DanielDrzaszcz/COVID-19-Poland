@@ -3,6 +3,7 @@ package com.dandrzas.covid19poland.data.domain;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
@@ -15,7 +16,7 @@ public class Covid19TodayDataTest {
     private final int TEST_ALL_CURED = 3;
     private final int TEST_ALL_DEATHS = 4;
     private final int TEST_TODAY_DEATHS = 5;
-
+    private final long DATE_TIMESTAMP = 1586985399859L;
 
     @Test
     public void setAndGetTest() {
@@ -26,7 +27,7 @@ public class Covid19TodayDataTest {
         data.setCuredAll(TEST_ALL_CURED);
         data.setDeathsAll(TEST_ALL_DEATHS);
         data.setDeathsToday(TEST_TODAY_DEATHS);
-
+        data.setUpdatedTime(new Date(DATE_TIMESTAMP));
 
         // Verify
         assertEquals(TEST_ALL_CASES, data.getCasesAll());
@@ -34,5 +35,7 @@ public class Covid19TodayDataTest {
         assertEquals(TEST_ALL_CURED, data.getCuredAll());
         assertEquals(TEST_ALL_DEATHS, data.getDeathsAll());
         assertEquals(TEST_TODAY_DEATHS, data.getDeathsToday());
+        assertEquals(DATE_TIMESTAMP, data.getUpdatedTime().getTime());
+
     }
 }

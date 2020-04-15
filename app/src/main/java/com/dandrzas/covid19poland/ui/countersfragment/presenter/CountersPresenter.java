@@ -42,7 +42,7 @@ public class CountersPresenter implements CountersPresenterIF {
                             countersData.add(3,String.valueOf(covid19TodayData.getDeathsAll()));
                             countersData.add(4,String.valueOf(covid19TodayData.getDeathsToday()));
                             view.setProgressBarsVisibility(false);
-                            view.setCountersData(countersData);
+                            view.setCountersData(countersData, covid19TodayData.getUpdatedTime());
                         }
 
                         @Override
@@ -71,7 +71,7 @@ public class CountersPresenter implements CountersPresenterIF {
             countersData.add(2, String.valueOf(data.getCuredAll()));
             countersData.add(3,String.valueOf(data.getDeathsAll()));
             countersData.add(4,String.valueOf(data.getDeathsToday()));
-            view.setCountersData(countersData);
+            view.setCountersData(countersData, data.getUpdatedTime());
         }
         else{
             refreshData(isInternetConnection, scheduler);

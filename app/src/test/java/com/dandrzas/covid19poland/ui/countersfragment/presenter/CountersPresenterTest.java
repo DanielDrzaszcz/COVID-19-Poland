@@ -68,7 +68,7 @@ public class CountersPresenterTest {
         verify(viewMock, never()).showConnectionAlert();
         verify(viewMock, atLeastOnce()).clearCountersData();
         verify(viewMock, atLeast(2)).setProgressBarsVisibility(anyBoolean());
-        verify(viewMock, atLeastOnce()).setCountersData(dataList);
+        verify(viewMock, atLeastOnce()).setCountersData(dataList, any());
         verify(viewMock, never()).setCountersError();
 
     }
@@ -87,7 +87,7 @@ public class CountersPresenterTest {
         verify(viewMock, never()).showConnectionAlert();
         verify(viewMock, atLeastOnce()).clearCountersData();
         verify(viewMock, atLeast(2)).setProgressBarsVisibility(anyBoolean());
-        verify(viewMock, never()).setCountersData(any());
+        verify(viewMock, never()).setCountersData(any(), any());
         verify(viewMock, atLeastOnce()).setCountersError();
 
     }
@@ -102,7 +102,7 @@ public class CountersPresenterTest {
         verify(viewMock, atLeastOnce()).showConnectionAlert();
         verify(viewMock, never()).clearCountersData();
         verify(viewMock, never()).setProgressBarsVisibility(anyBoolean());
-        verify(viewMock, never()).setCountersData(any());
+        verify(viewMock, never()).setCountersData(any(), any());
         verify(viewMock, never()).setCountersError();
 
     }
@@ -120,7 +120,7 @@ public class CountersPresenterTest {
         verify(viewMock, never()).showConnectionAlert();
         verify(viewMock, never()).clearCountersData();
         verify(viewMock, never()).setProgressBarsVisibility(anyBoolean());
-        verify(viewMock, atLeastOnce()).setCountersData(dataList);
+        verify(viewMock, atLeastOnce()).setCountersData(dataList, any());
         verify(viewMock, never()).setCountersError();
 
     }
@@ -140,7 +140,7 @@ public class CountersPresenterTest {
         verify(viewMock, never()).showConnectionAlert();
         verify(viewMock, atLeastOnce()).clearCountersData();
         verify(viewMock, atLeast(2)).setProgressBarsVisibility(anyBoolean());
-        verify(viewMock, atLeastOnce()).setCountersData(dataList);
+        verify(viewMock, atLeastOnce()).setCountersData(dataList, any());
         verify(viewMock, never()).setCountersError();
 
     }

@@ -18,8 +18,12 @@ import com.dandrzas.covid19poland.R;
 import com.dandrzas.covid19poland.data.remotedatasource.RemoteDataSource;
 import com.dandrzas.covid19poland.ui.countersfragment.presenter.CountersPresenter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
@@ -36,7 +40,7 @@ public class CountersFragment extends Fragment implements CountersFragmentIF {
     List<ProgressBar> progressBars;
     private float coutersTextSize;
     @BindView(R.id.counters_fragment) View countersFragmentView;
-
+    @BindView(R.id.text_view_update_info) TextView textViewUpdateTime;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,12 +65,14 @@ public class CountersFragment extends Fragment implements CountersFragmentIF {
     }
 
     @Override
-    public void setCountersData(ArrayList<String> countersData) {
+    public void setCountersData(ArrayList<String> countersData, Date updateTime) {
         textViewsCounters.get(2).setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorGreen, null));
         for(int i=0; i<countersData.size();i++){
             textViewsCounters.get(i).setTextSize(TypedValue.COMPLEX_UNIT_PX, coutersTextSize);
             textViewsCounters.get(i).setText(countersData.get(i));
         }
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault());
+        textViewUpdateTime.setText(getResources().getString(R.string.update_time) + formatter.format(updateTime));
     }
 
     @Override
@@ -83,6 +89,7 @@ public class CountersFragment extends Fragment implements CountersFragmentIF {
             textViewsCounters.get(textViewsCounters.indexOf(counterData)).setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) (coutersTextSize * 0.4));
             textViewsCounters.get(textViewsCounters.indexOf(counterData)).setText(R.string.download_error);
         }
+        textViewUpdateTime.setText(getResources().getString(R.string.update_time));
     }
 
     @Override

@@ -5,11 +5,13 @@
     <string name="all_cured">Przypadki wyleczone wszystkie</string>
     <string name="all_deaths">Przypadki śmiertelne wszystkie</string>
     <string name="today_deaths">Przypadki śmiertelne dzisiaj</string>
+    <string name="update_time">Aktualizacja:\t</string>
+    <string name="data_source">Źródło danych: worldometers.info</string>
     <string name="download_error">Błąd pobierania</string>
     <string name="connection_dialog_title">Błąd</string>
     <string name="connection_dialog_message">Brak dostępu do Internetu</string>
-    <string name="menu_counters">Dane</string>
-    <string name="menu_trends">Trendy</string>
+    <string name="menu_counters">Dane aktualne</string>
+    <string name="menu_trends">Dane historyczne</string>
     <string name="history_all">Przypadki wszystkie</string>
     <string name="history_daily">Przypadki dziennie</string>
     <string name="history_legend_cases">zachorowania</string>

@@ -1,8 +1,9 @@
 package com.dandrzas.covid19poland.data.domain;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 
 public class Covid19TodayData {
 
@@ -11,7 +12,7 @@ public class Covid19TodayData {
     private int curedAll;
     private int deathsAll;
     private int deathsToday;
-
+    private Date updatedTime;
 
     public Covid19TodayData() {
     }
@@ -56,4 +57,11 @@ public class Covid19TodayData {
         this.deathsToday = deathsToday;
     }
 
+    public Date getUpdatedTime() {
+        return updatedTime;
+    }
+
+    public void setUpdatedTime(Date updatedTime) {
+        this.updatedTime = updatedTime;
+    }
 }

@@ -1,7 +1,8 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="counter_name_size">23sp</dimen>
-    <dimen name="counter_value_size">44sp</dimen>
+    <dimen name="counter_name_size">20sp</dimen>
+    <dimen name="counter_value_size">40sp</dimen>
+    <dimen name="counters_info_size">10sp</dimen>
     <dimen name="trend_name_size">18sp</dimen>
     <dimen name="history_error_size">30sp</dimen>
 </resources>
