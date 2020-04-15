@@ -1,12 +1,10 @@
-package com.dandrzas.covid19poland.ui.trendsfragment.presenter;
+package com.dandrzas.covid19poland.ui.historicaldatafragment.presenter;
 
 import android.graphics.Color;
 
-import com.dandrzas.covid19poland.R;
 import com.dandrzas.covid19poland.data.domain.Covid19HistoricalData;
-import com.dandrzas.covid19poland.data.domain.Covid19TodayData;
 import com.dandrzas.covid19poland.data.remotedatasource.RemoteDataSourceIF;
-import com.dandrzas.covid19poland.ui.trendsfragment.view.TrendsFragmentIF;
+import com.dandrzas.covid19poland.ui.historicaldatafragment.view.HistoricalDataIF;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -23,11 +21,11 @@ import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
 
 
-public class TrendsPresenter implements TrendsPresenterIF {
-    private TrendsFragmentIF view;
+public class HistoricalDataPresenter implements HistoricalDataPresenterIF {
+    private HistoricalDataIF view;
     private RemoteDataSourceIF remoteDataSource;
 
-    public TrendsPresenter(TrendsFragmentIF view, RemoteDataSourceIF remoteDataSource) {
+    public HistoricalDataPresenter(HistoricalDataIF view, RemoteDataSourceIF remoteDataSource) {
         this.view = view;
         this.remoteDataSource = remoteDataSource;
     }

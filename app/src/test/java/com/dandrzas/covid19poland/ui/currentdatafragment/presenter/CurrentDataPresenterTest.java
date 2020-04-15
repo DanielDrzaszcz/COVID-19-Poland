@@ -1,13 +1,14 @@
-package com.dandrzas.covid19poland.ui.countersfragment.presenter;
+package com.dandrzas.covid19poland.ui.currentdatafragment.presenter;
 
 import com.dandrzas.covid19poland.data.domain.Covid19TodayData;
 import com.dandrzas.covid19poland.data.remotedatasource.RemoteDataSource;
-import com.dandrzas.covid19poland.ui.countersfragment.view.CountersFragment;
+import com.dandrzas.covid19poland.ui.currentdatafragment.view.CurrentDataFragment;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
@@ -23,36 +24,36 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CountersPresenterTest {
+public class CurrentDataPresenterTest {
 
     private final Integer TEST_ALL_CASES = 9999;
     private final Integer TEST_TODAY_CASES = 54;
     private final Integer TEST_ALL_CURED = 54;
     private final Integer TEST_ALL_DEATHS = 65;
     private final Integer TEST_TODAY_DEATHS = 5;
-    private CountersPresenter presenter;
+    private CurrentDataPresenter presenter;
     private Covid19TodayData data = new Covid19TodayData();
-    private ArrayList<String> dataList = new ArrayList<>();
+    private ArrayList<Integer> dataList = new ArrayList<>();
 
     @Mock
-    CountersFragment viewMock;
+    CurrentDataFragment viewMock;
 
     @Mock
     RemoteDataSource remoteDataSourceMock;
 
     @Before
     public void setUp() {
-        presenter = new CountersPresenter(viewMock, remoteDataSourceMock);
+        presenter = new CurrentDataPresenter(viewMock, remoteDataSourceMock);
         data.setCasesAll(TEST_ALL_CASES);
         data.setCasesToday(TEST_TODAY_CASES);
         data.setCuredAll(TEST_ALL_CURED);
         data.setDeathsAll(TEST_ALL_DEATHS);
         data.setDeathsToday(TEST_TODAY_DEATHS);
-        dataList.add(0, String.valueOf(data.getCasesAll()));
-        dataList.add(1, String.valueOf(data.getCasesToday()));
-        dataList.add(2, String.valueOf(data.getCuredAll()));
-        dataList.add(3, String.valueOf(data.getDeathsAll()));
-        dataList.add(4, String.valueOf(data.getDeathsToday()));
+        dataList.add(0, data.getCasesAll());
+        dataList.add(1, data.getCasesToday());
+        dataList.add(2, data.getCuredAll());
+        dataList.add(3, data.getDeathsAll());
+        dataList.add(4, data.getDeathsToday());
     }
 
     @Test
@@ -68,7 +69,8 @@ public class CountersPresenterTest {
         verify(viewMock, never()).showConnectionAlert();
         verify(viewMock, atLeastOnce()).clearCountersData();
         verify(viewMock, atLeast(2)).setProgressBarsVisibility(anyBoolean());
-        verify(viewMock, atLeastOnce()).setCountersData(dataList, any());
+        verify(viewMock, never()).setCountersData(any(), any());
+        verify(viewMock, atLeastOnce()).setCountersDataAnimated(Mockito.eq(dataList), any());
         verify(viewMock, never()).setCountersError();
 
     }
@@ -88,6 +90,7 @@ public class CountersPresenterTest {
         verify(viewMock, atLeastOnce()).clearCountersData();
         verify(viewMock, atLeast(2)).setProgressBarsVisibility(anyBoolean());
         verify(viewMock, never()).setCountersData(any(), any());
+        verify(viewMock, never()).setCountersDataAnimated(any(), any());
         verify(viewMock, atLeastOnce()).setCountersError();
 
     }
@@ -103,6 +106,7 @@ public class CountersPresenterTest {
         verify(viewMock, never()).clearCountersData();
         verify(viewMock, never()).setProgressBarsVisibility(anyBoolean());
         verify(viewMock, never()).setCountersData(any(), any());
+        verify(viewMock, never()).setCountersDataAnimated(any(), any());
         verify(viewMock, never()).setCountersError();
 
     }
@@ -120,7 +124,8 @@ public class CountersPresenterTest {
         verify(viewMock, never()).showConnectionAlert();
         verify(viewMock, never()).clearCountersData();
         verify(viewMock, never()).setProgressBarsVisibility(anyBoolean());
-        verify(viewMock, atLeastOnce()).setCountersData(dataList, any());
+        verify(viewMock, atLeastOnce()).setCountersData(Mockito.eq(dataList), any());
+        verify(viewMock, never()).setCountersDataAnimated(any(), any());
         verify(viewMock, never()).setCountersError();
 
     }
@@ -140,7 +145,8 @@ public class CountersPresenterTest {
         verify(viewMock, never()).showConnectionAlert();
         verify(viewMock, atLeastOnce()).clearCountersData();
         verify(viewMock, atLeast(2)).setProgressBarsVisibility(anyBoolean());
-        verify(viewMock, atLeastOnce()).setCountersData(dataList, any());
+        verify(viewMock, never()).setCountersData(any(), any());
+        verify(viewMock, atLeastOnce()).setCountersDataAnimated(Mockito.eq(dataList), any());
         verify(viewMock, never()).setCountersError();
 
     }

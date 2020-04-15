@@ -1,9 +1,8 @@
-package com.dandrzas.covid19poland.ui.trendsfragment.presenter;
+package com.dandrzas.covid19poland.ui.historicaldatafragment.presenter;
 
 import com.dandrzas.covid19poland.data.domain.Covid19HistoricalData;
-import com.dandrzas.covid19poland.data.domain.Covid19TodayData;
 import com.dandrzas.covid19poland.data.remotedatasource.RemoteDataSource;
-import com.dandrzas.covid19poland.ui.trendsfragment.view.TrendsFragment;
+import com.dandrzas.covid19poland.ui.historicaldatafragment.view.HistoricalDataFragment;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,25 +25,25 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class TrendsPresenterTest {
+public class HistoricalDataPresenterTest {
 
     private HashMap<String, Integer> casesHistoryMap = new LinkedHashMap<>();
     private HashMap<String, Integer> deathsHistoryMap = new LinkedHashMap<>();
     private HashMap<String, Integer> curedHistoryMap = new LinkedHashMap<>();
-    private TrendsPresenter  presenter;
+    private HistoricalDataPresenter presenter;
     private Covid19HistoricalData data = new Covid19HistoricalData();
     private String[] dateDaysAll = {"3/25/20", "3/26/20", "3/27/20", "3/28/20", "3/29/20"};
     private String[] dateDaysDaily = {"3/26/20", "3/27/20", "3/28/20", "3/29/20"};
 
     @Mock
-    TrendsFragment viewMock;
+    HistoricalDataFragment viewMock;
 
     @Mock
     RemoteDataSource remoteDataSourceMock;
 
     @Before
     public void setUp(){
-        presenter = new TrendsPresenter(viewMock, remoteDataSourceMock);
+        presenter = new HistoricalDataPresenter(viewMock, remoteDataSourceMock);
 
         casesHistoryMap.put(dateDaysAll[0], 150);
         casesHistoryMap.put(dateDaysAll[1], 170);

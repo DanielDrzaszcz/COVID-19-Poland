@@ -1,19 +1,19 @@
-package com.dandrzas.covid19poland.ui.countersfragment.presenter;
+package com.dandrzas.covid19poland.ui.currentdatafragment.presenter;
 
 import com.dandrzas.covid19poland.data.domain.Covid19TodayData;
 import com.dandrzas.covid19poland.data.remotedatasource.RemoteDataSourceIF;
-import com.dandrzas.covid19poland.ui.countersfragment.view.CountersFragmentIF;
+import com.dandrzas.covid19poland.ui.currentdatafragment.view.CurrentDataFragmentIF;
 import java.util.ArrayList;
 import io.reactivex.Observer;
 import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
 
 
-public class CountersPresenter implements CountersPresenterIF {
-    private CountersFragmentIF view;
+public class CurrentDataPresenter implements CurrentDataPresenterIF {
+    private CurrentDataFragmentIF view;
     private RemoteDataSourceIF remoteDataSource;
 
-    public CountersPresenter(CountersFragmentIF view, RemoteDataSourceIF remoteDataSource) {
+    public CurrentDataPresenter(CurrentDataFragmentIF view, RemoteDataSourceIF remoteDataSource) {
         this.view = view;
         this.remoteDataSource = remoteDataSource;
     }
@@ -35,14 +35,14 @@ public class CountersPresenter implements CountersPresenterIF {
 
                         @Override
                         public void onNext(Covid19TodayData covid19TodayData) {
-                            ArrayList<String> countersData = new ArrayList<String>();
-                            countersData.add(0, String.valueOf(covid19TodayData.getCasesAll()));
-                            countersData.add(1, String.valueOf(covid19TodayData.getCasesToday()));
-                            countersData.add(2, String.valueOf(covid19TodayData.getCuredAll()));
-                            countersData.add(3,String.valueOf(covid19TodayData.getDeathsAll()));
-                            countersData.add(4,String.valueOf(covid19TodayData.getDeathsToday()));
+                            ArrayList<Integer> countersData = new ArrayList<>();
+                            countersData.add(0, covid19TodayData.getCasesAll());
+                            countersData.add(1, covid19TodayData.getCasesToday());
+                            countersData.add(2, covid19TodayData.getCuredAll());
+                            countersData.add(3, covid19TodayData.getDeathsAll());
+                            countersData.add(4, covid19TodayData.getDeathsToday());
                             view.setProgressBarsVisibility(false);
-                            view.setCountersData(countersData, covid19TodayData.getUpdatedTime());
+                            view.setCountersDataAnimated(countersData, covid19TodayData.getUpdatedTime());
                         }
 
                         @Override
@@ -65,12 +65,12 @@ public class CountersPresenter implements CountersPresenterIF {
     public void initData(boolean isInternetConnection, Scheduler scheduler) {
         Covid19TodayData data = remoteDataSource.getTodayData();
         if(data != null){
-            ArrayList<String> countersData = new ArrayList<String>();
-            countersData.add(0, String.valueOf(data.getCasesAll()));
-            countersData.add(1, String.valueOf(data.getCasesToday()));
-            countersData.add(2, String.valueOf(data.getCuredAll()));
-            countersData.add(3,String.valueOf(data.getDeathsAll()));
-            countersData.add(4,String.valueOf(data.getDeathsToday()));
+            ArrayList<Integer> countersData = new ArrayList<>();
+            countersData.add(0, data.getCasesAll());
+            countersData.add(1, data.getCasesToday());
+            countersData.add(2, data.getCuredAll());
+            countersData.add(3, data.getDeathsAll());
+            countersData.add(4, data.getDeathsToday());
             view.setCountersData(countersData, data.getUpdatedTime());
         }
         else{

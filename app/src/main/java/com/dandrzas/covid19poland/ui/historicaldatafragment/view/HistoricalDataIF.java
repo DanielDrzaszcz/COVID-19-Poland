@@ -1,9 +1,9 @@
-package com.dandrzas.covid19poland.ui.trendsfragment.view;
+package com.dandrzas.covid19poland.ui.historicaldatafragment.view;
 
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.LineData;
 
-public interface TrendsFragmentIF {
+public interface HistoricalDataIF {
 
     void setLineChartData(LineData lineChartData, String[] labelsData);
     void setBarChartData(BarData barChartData, String[] labelsData);

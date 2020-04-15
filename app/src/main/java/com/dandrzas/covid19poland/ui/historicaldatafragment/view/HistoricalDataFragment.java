@@ -1,4 +1,4 @@
-package com.dandrzas.covid19poland.ui.trendsfragment.view;
+package com.dandrzas.covid19poland.ui.historicaldatafragment.view;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.dandrzas.covid19poland.R;
 import com.dandrzas.covid19poland.data.remotedatasource.RemoteDataSource;
-import com.dandrzas.covid19poland.ui.trendsfragment.presenter.TrendsPresenter;
+import com.dandrzas.covid19poland.ui.historicaldatafragment.presenter.HistoricalDataPresenter;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -42,9 +42,9 @@ import butterknife.OnClick;
 import io.reactivex.schedulers.Schedulers;
 
 
-public class TrendsFragment extends Fragment implements TrendsFragmentIF {
+public class HistoricalDataFragment extends Fragment implements HistoricalDataIF {
 
-    private TrendsPresenter presenter;
+    private HistoricalDataPresenter presenter;
 
     @BindView(R.id.chart_line)
     LineChart chartLine;
@@ -57,17 +57,17 @@ public class TrendsFragment extends Fragment implements TrendsFragmentIF {
     @BindViews({R.id.progress_bar_trend_line, R.id.progress_bar_trend_bar})
     List<ProgressBar> progressBars;
 
-    @BindView(R.id.trends_fragment)
+    @BindView(R.id.historical_data_fragment)
     View trendsFragmentView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_trends, container, false);
+        View view = inflater.inflate(R.layout.fragment_historical_data, container, false);
         ButterKnife.bind(this, view);
         trendsFragmentView.setOnTouchListener(new TouchRefreshDataListener());
-        presenter = new TrendsPresenter(this, RemoteDataSource.getInstance());
+        presenter = new HistoricalDataPresenter(this, RemoteDataSource.getInstance());
         presenter.initData(checkInternetConnection(), Schedulers.newThread());
 
         return view;

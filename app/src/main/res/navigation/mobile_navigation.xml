@@ -6,9 +6,9 @@
 
     <fragment
         android:id="@+id/navigation_counters"
-        android:name="com.dandrzas.covid19poland.ui.countersfragment.view.CountersFragment"
+        android:name="com.dandrzas.covid19poland.ui.currentdatafragment.view.CurrentDataFragment"
         android:label="@string/app_name"
-        tools:layout="@layout/fragment_counters" >
+        tools:layout="@layout/fragment_current_data" >
         <action
             android:id="@+id/action_navigation_counters_to_navigation_trends"
             app:destination="@id/navigation_trends" />
@@ -16,8 +16,8 @@
 
     <fragment
         android:id="@+id/navigation_trends"
-        android:name="com.dandrzas.covid19poland.ui.trendsfragment.view.TrendsFragment"
+        android:name="com.dandrzas.covid19poland.ui.historicaldatafragment.view.HistoricalDataFragment"
         android:label="@string/app_name"
-        tools:layout="@layout/fragment_trends" />
+        tools:layout="@layout/fragment_historical_data" />
 
 </navigation>
