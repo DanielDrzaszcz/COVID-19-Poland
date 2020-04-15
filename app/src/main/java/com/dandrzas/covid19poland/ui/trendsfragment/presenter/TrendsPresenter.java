@@ -117,10 +117,10 @@ public class TrendsPresenter implements TrendsPresenterIF {
         }
         LineDataSet dataset = new LineDataSet(entries, "zachorowania");
         dataset.setValueTextColor(Color.WHITE);
-        dataset.setColor(Color.LTGRAY);
+        dataset.setColor(Color.WHITE);
         dataset.setCircleColor(Color.TRANSPARENT);
-        dataset.setCircleHoleColor(Color.LTGRAY);
-        dataset.setHighlightEnabled(false);
+        dataset.setCircleHoleColor(Color.WHITE);
+        dataset.setHighlightEnabled(true);
         data.addDataSet(dataset);
 
         // dataset 2
@@ -134,7 +134,7 @@ public class TrendsPresenter implements TrendsPresenterIF {
         dataset2.setColor(Color.RED);
         dataset2.setCircleColor(Color.TRANSPARENT);
         dataset2.setCircleHoleColor(Color.RED);
-        dataset2.setHighlightEnabled(false);
+        dataset2.setHighlightEnabled(true);
         data.addDataSet(dataset2);
 
         // dataset 3
@@ -148,7 +148,7 @@ public class TrendsPresenter implements TrendsPresenterIF {
         dataset3.setColor(Color.GREEN);
         dataset3.setCircleColor(Color.TRANSPARENT);
         dataset3.setCircleHoleColor(Color.GREEN);
-        dataset3.setHighlightEnabled(false);
+        dataset3.setHighlightEnabled(true);
         data.addDataSet(dataset3);
 
         data.setDrawValues(false);
@@ -168,8 +168,8 @@ public class TrendsPresenter implements TrendsPresenterIF {
         }
         BarDataSet dataset = new BarDataSet(entries, "zachorowania");
         dataset.setValueTextColor(Color.WHITE);
-        dataset.setColor(Color.LTGRAY);
-        dataset.setHighlightEnabled(false);
+        dataset.setColor(Color.WHITE);
+        dataset.setHighlightEnabled(true);
         data.addDataSet(dataset);
 
         // dataset 2
@@ -181,7 +181,7 @@ public class TrendsPresenter implements TrendsPresenterIF {
         BarDataSet dataset2 = new BarDataSet(entries2, "zgony");
         dataset2.setValueTextColor(Color.WHITE);
         dataset2.setColor(Color.RED);
-        dataset2.setHighlightEnabled(false);
+        dataset2.setHighlightEnabled(true);
         data.addDataSet(dataset2);
 
         // dataset 3
@@ -193,7 +193,7 @@ public class TrendsPresenter implements TrendsPresenterIF {
         BarDataSet dataset3 = new BarDataSet(entries3, "wyleczenia");
         dataset3.setValueTextColor(Color.WHITE);
         dataset3.setColor(Color.GREEN);
-        dataset3.setHighlightEnabled(false);
+        dataset3.setHighlightEnabled(true);
         data.addDataSet(dataset3);
 
         data.setDrawValues(false);

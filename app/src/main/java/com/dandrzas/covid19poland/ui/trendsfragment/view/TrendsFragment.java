@@ -17,26 +17,23 @@ import androidx.fragment.app.Fragment;
 
 import com.dandrzas.covid19poland.R;
 import com.dandrzas.covid19poland.data.remotedatasource.RemoteDataSource;
-import com.dandrzas.covid19poland.ui.countersfragment.view.CountersFragment;
 import com.dandrzas.covid19poland.ui.trendsfragment.presenter.TrendsPresenter;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.utils.MPPointF;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.BindViews;
@@ -151,36 +148,66 @@ public class TrendsFragment extends Fragment implements TrendsFragmentIF {
     }
 
     private void lineBarConfig(LineData lineChartData, String[] labelsData){
+        XAxis xAxis = chartLine.getXAxis();
+        YAxis yAxisLeft = chartLine.getAxisLeft();
+        YAxis yAxisRight = chartLine.getAxisRight();
+        Legend legend = chartLine.getLegend();
+        Description description = chartLine.getDescription();
 
-        chartLine.getXAxis().setValueFormatter(new ValueFormatter(){
+        // date labels config
+        xAxis.setValueFormatter(new ValueFormatter(){
             @Override
             public String getAxisLabel(float value, AxisBase axis) {
                 return labelsData[(int)value];
             }
         } );
-        chartLine.getXAxis().setLabelRotationAngle(270);
-        chartLine.getLegend().setEnabled(true);
-        chartLine.getLegend().setTextColor(Color.WHITE);
+        xAxis.setLabelRotationAngle(270);
+
+        // legend config
+        legend.setEnabled(true);
+        legend.setTextColor(Color.WHITE);
+
+        // chart view config
         chartLine.setData(lineChartData);
         chartLine.setBorderColor(Color.WHITE);
         chartLine.setNoDataTextColor(Color.WHITE);
         chartLine.setPinchZoom(false);
-        chartLine.getAxis(YAxis.AxisDependency.LEFT).setAxisMinimum(0f);
-        chartLine.getAxisLeft().setTextColor(Color.WHITE);
-        chartLine.getAxisRight().setTextColor(Color.WHITE);
-        chartLine.getDescription().setEnabled(false);
-        chartLine.getXAxis().setDrawLabels(true);
-        chartLine.getXAxis().setDrawAxisLine(true);
-        chartLine.getXAxis().setTextColor(Color.WHITE);
-        chartLine.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-        chartLine.getXAxis().setGranularity(1f);
+        CustomMarkerView mv = new CustomMarkerView(getContext(), new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                return labelsData[(int)value];
+            }
+        });
+        mv.setChartView(chartLine); // For bounds control
+        chartLine.setMarker(mv); // Set the marker to the chart
+
+        // x axis config
+        xAxis.setDrawLabels(true);
+        xAxis.setDrawAxisLine(true);
+        xAxis.setTextColor(Color.WHITE);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setGranularity(1f);
+
+        // y axes config
+        yAxisLeft.setAxisMinimum(0f);
+        yAxisLeft.setTextColor(Color.WHITE);
+        yAxisRight.setAxisMinimum(0f);
+        yAxisRight.setTextColor(Color.WHITE);
+        description.setEnabled(false);
+
     }
 
     private void chartBarConfig(BarData barChartData, String[] labelsDate){
         float groupSpace = 0.1f;
         float barSpace = 0f;
+        XAxis xAxis = chartBar.getXAxis();
+        YAxis yAxisLeft = chartBar.getAxisLeft();
+        YAxis yAxisRight = chartBar.getAxisRight();
+        Legend legend = chartBar.getLegend();
+        Description description = chartBar.getDescription();
 
-        chartBar.getXAxis().setValueFormatter(new ValueFormatter(){
+        // date labels config
+        xAxis.setValueFormatter(new ValueFormatter(){
             @Override
             public String getAxisLabel(float value, AxisBase axis) {
                 if((value>=0)&&(value<labelsDate.length)){
@@ -190,30 +217,47 @@ public class TrendsFragment extends Fragment implements TrendsFragmentIF {
                 }
             }
         } );
-        chartBar.getXAxis().setLabelRotationAngle(270);
-        chartBar.getLegend().setEnabled(true);
-        chartBar.getLegend().setTextColor(Color.WHITE);
+        xAxis.setLabelRotationAngle(270);
+
+        // legend config
+        legend.setEnabled(true);
+        legend.setTextColor(Color.WHITE);
+
+        // chart view config
         chartBar.setData(barChartData);
         chartBar.setBorderColor(Color.WHITE);
         chartBar.setNoDataTextColor(Color.WHITE);
         chartBar.setPinchZoom(false);
-        chartBar.moveViewToX(chartBar.getData().getXMax()-10);
-        chartBar.getAxisLeft().setTextColor(Color.WHITE);
-        chartBar.getAxisLeft().setDrawTopYLabelEntry(false);
-        chartBar.getAxisLeft().setAxisMinimum(0f);
-        chartBar.getAxisRight().setTextColor(Color.WHITE);
-        chartBar.getAxisRight().setAxisMinimum(0f);
-        chartBar.getDescription().setEnabled(false);
-        chartBar.getXAxis().setDrawLabels(true);
-        chartBar.getXAxis().setDrawAxisLine(true);
-        chartBar.getXAxis().setTextColor(Color.WHITE);
-        chartBar.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-        chartBar.getXAxis().setGranularity(1f);
-        chartBar.getXAxis().setAxisMinimum(0f);
-        chartBar.getXAxis().setAxisMaximum((labelsDate.length*chartBar.getBarData().getGroupWidth(groupSpace, barSpace)));
-        chartBar.getXAxis().setCenterAxisLabels(true);
         chartBar.groupBars(0f, groupSpace, barSpace);
+        CustomMarkerView mv2 = new CustomMarkerView(getContext(), new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                return labelsDate[(int)value];
+            }
+        });
+        mv2.setChartView(chartBar); // For bounds control
+        chartBar.setMarker(mv2); // Set the marker to the chart
 
+        // x axis config
+        xAxis.setDrawLabels(true);
+        xAxis.setDrawAxisLine(true);
+        xAxis.setTextColor(Color.WHITE);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setGranularity(1f);
+        xAxis.setAxisMinimum(0f);
+        xAxis.setAxisMaximum((labelsDate.length*chartBar.getBarData().getGroupWidth(groupSpace, barSpace)));
+        xAxis.setCenterAxisLabels(true);
+
+        // y axes config
+        yAxisLeft.setTextColor(Color.WHITE);
+        yAxisLeft.setDrawTopYLabelEntry(false);
+        yAxisLeft.setAxisMinimum(0f);
+        yAxisRight.setTextColor(Color.WHITE);
+        yAxisRight.setAxisMinimum(0f);
+
+
+        // description config
+        description.setEnabled(false);
     }
 
     private boolean checkInternetConnection(){
@@ -241,6 +285,33 @@ public class TrendsFragment extends Fragment implements TrendsFragmentIF {
                 presenter.refreshData(checkInternetConnection(), Schedulers.newThread());
             }
             return true;
+        }
+    }
+
+
+
+    public class CustomMarkerView extends MarkerView {
+
+        private final TextView tvContent;
+        private final ValueFormatter xAxisValueFormatter;
+
+        public CustomMarkerView(Context context, ValueFormatter xAxisValueFormatter) {
+            super(context, R.layout.custom_marker_view);
+
+            this.xAxisValueFormatter = xAxisValueFormatter;
+            tvContent = findViewById(R.id.tvContent);
+        }
+
+        @Override
+        public void refreshContent(Entry e, Highlight highlight) {
+
+            tvContent.setText(xAxisValueFormatter.getFormattedValue(e.getX()) + "\n" + (int)e.getY());
+            super.refreshContent(e, highlight);
+        }
+
+        @Override
+        public MPPointF getOffset() {
+            return new MPPointF(-(getWidth() / 2), -getHeight());
         }
     }
 
