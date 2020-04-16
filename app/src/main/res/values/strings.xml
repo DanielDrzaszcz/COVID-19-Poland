@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">COVID-19 Polska</string>
-    <string name="all_cases">Przypadki zachorowań wszystkie</string>
-    <string name="today_cases">Przypadki zachorowań dzisiaj</string>
-    <string name="active_cases">Przypadki zachorowań aktywne</string>
-    <string name="all_cured">Przypadki wyleczone wszystkie</string>
-    <string name="all_deaths">Przypadki śmiertelne wszystkie</string>
-    <string name="today_deaths">Przypadki śmiertelne dzisiaj</string>
+    <string name="all_cases">Wszystkie przypadki zachorowań </string>
+    <string name="today_cases">Dzisiejsze przypadki zachorowań</string>
+    <string name="active_cases">Aktywne przypadki zachorowań</string>
+    <string name="all_cured">Wszystkie wyleczone przypadki</string>
+    <string name="all_deaths">Wszystkie śmiertelne przypadki</string>
+    <string name="today_deaths">Dzisiejsze śmiertelne przypadki</string>
     <string name="update_time">Aktualizacja:\t</string>
     <string name="data_source">Źródło danych: worldometers.info</string>
     <string name="download_error">Błąd pobierania</string>
@@ -13,8 +13,8 @@
     <string name="connection_dialog_message">Brak dostępu do Internetu</string>
     <string name="menu_counters">Dane aktualne</string>
     <string name="menu_trends">Dane historyczne</string>
-    <string name="history_all">Przypadki wszystkie</string>
-    <string name="history_daily">Przypadki dziennie</string>
+    <string name="history_all">Wszystkie przypadki</string>
+    <string name="history_daily">Przyrost dzienny</string>
     <string name="history_legend_cases">zachorowania</string>
     <string name="history_legend_deaths">zgony</string>
     <string name="history_legend_cured">wyleczenia</string>
