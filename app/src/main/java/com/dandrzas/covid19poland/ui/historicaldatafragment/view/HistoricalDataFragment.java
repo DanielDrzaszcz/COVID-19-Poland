@@ -94,13 +94,13 @@ public class HistoricalDataFragment extends Fragment implements HistoricalDataIF
     @Override
     public void setLineChartDataAnimated(LineData lineChartData, String[] labelsData) {
         lineChartConfig(lineChartData, labelsData);
-        chartLine.animateY(1000);
+        chartLine.animateXY(1000, 1000);
     }
 
     @Override
     public void setBarChartDataAnimated(BarData barChartData, String[] labelsData) {
         barChartConfig(barChartData, labelsData);
-        chartBar.animateY(1000);
+        chartBar.animateXY(1000, 1000);
     }
 
     @Override
