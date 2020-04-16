@@ -1,9 +1,6 @@
 package com.dandrzas.covid19poland.data.remotedatasource;
 
 import android.content.Context;
-import android.icu.util.LocaleData;
-import android.util.Log;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyLog;
@@ -13,20 +10,10 @@ import com.dandrzas.covid19poland.data.domain.Covid19HistoricalData;
 import com.dandrzas.covid19poland.data.domain.Covid19TodayData;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.Locale;
-import java.util.TimeZone;
-
 import io.reactivex.Observable;
 
 public class RemoteDataSource implements RemoteDataSourceIF {

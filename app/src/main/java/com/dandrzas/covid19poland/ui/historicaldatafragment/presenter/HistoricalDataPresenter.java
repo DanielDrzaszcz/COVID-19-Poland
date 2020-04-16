@@ -49,7 +49,7 @@ public class HistoricalDataPresenter implements HistoricalDataPresenterIF {
                         @Override
                         public void onNext(Covid19HistoricalData ccvid19HistoricalData) {
 
-                            LineData lineData = hashMapToLineData(ccvid19HistoricalData.getHistoryCasesAll(), ccvid19HistoricalData.getHistoryDeathsAll(), ccvid19HistoricalData.getHistoryCuredAll());
+                            LineData lineData = hashMapToLineData(ccvid19HistoricalData.getHistoryCasesAll(), ccvid19HistoricalData.getHistoryDeathsAll(), ccvid19HistoricalData.getHistoryCuredAll(), ccvid19HistoricalData.getHistoryActiveAll());
                             BarData barData = hashMapToBarData(ccvid19HistoricalData.getHistoryCasesDaily(), ccvid19HistoricalData.getHistoryDeathsDaily(), ccvid19HistoricalData.getHistoryCuredDaily());
                             String[] lineChartDateLabels = Arrays.copyOf(ccvid19HistoricalData.getHistoryCasesAll().keySet().toArray(), ccvid19HistoricalData.getHistoryCasesAll().keySet().toArray().length, String[].class);
                             String[] barChartDateLabels = Arrays.copyOf(ccvid19HistoricalData.getHistoryCasesDaily().keySet().toArray(), ccvid19HistoricalData.getHistoryCasesDaily().keySet().toArray().length, String[].class);
@@ -87,7 +87,7 @@ public class HistoricalDataPresenter implements HistoricalDataPresenterIF {
         if(data != null){
             if(data.getHistoryCasesAll() != null) {
 
-                LineData lineData = hashMapToLineData(data.getHistoryCasesAll(), data.getHistoryDeathsAll(), data.getHistoryCuredAll());
+                LineData lineData = hashMapToLineData(data.getHistoryCasesAll(), data.getHistoryDeathsAll(), data.getHistoryCuredAll(), data.getHistoryActiveAll());
                 BarData barData = hashMapToBarData(data.getHistoryCasesDaily(), data.getHistoryDeathsDaily(), data.getHistoryCuredDaily());
                 String[] lineChartDateLabels = Arrays.copyOf(data.getHistoryCasesAll().keySet().toArray(), data.getHistoryCasesAll().keySet().toArray().length, String[].class);
                 String[] barChartDateLabels = Arrays.copyOf(data.getHistoryCasesDaily().keySet().toArray(), data.getHistoryCasesDaily().keySet().toArray().length, String[].class);
@@ -104,30 +104,44 @@ public class HistoricalDataPresenter implements HistoricalDataPresenterIF {
         }
     }
 
-    private LineData hashMapToLineData(HashMap<String,Integer> hashMapCases, HashMap<String,Integer> hashMapDeaths, HashMap<String,Integer> hashMapCured){
+    private LineData hashMapToLineData(HashMap<String,Integer> hashMapCases, HashMap<String,Integer> hashMapDeaths, HashMap<String,Integer> hashMapCured, HashMap<String,Integer> hashMapActiveCases){
         LineData data = new LineData();
 
-        // dataset 1
-        String[] mapKeys = Arrays.copyOf(hashMapCases.keySet().toArray(), hashMapCases.keySet().toArray().length, String[].class);
-        ArrayList<Entry> entries = new ArrayList<>();
-        for(int i=0; i<mapKeys.length; i++) {
-            entries.add(new Entry(i,hashMapCases.get(mapKeys[i])));
+        // dataset active cases
+        String[] mapKeys0 = Arrays.copyOf(hashMapActiveCases.keySet().toArray(), hashMapActiveCases.keySet().toArray().length, String[].class);
+        ArrayList<Entry> entries0 = new ArrayList<>();
+        for(int i=0; i<mapKeys0.length; i++) {
+            entries0.add(new Entry(i,hashMapActiveCases.get(mapKeys0[i])));
         }
-        LineDataSet dataset = new LineDataSet(entries, "zachorowania");
-        dataset.setValueTextColor(Color.WHITE);
-        dataset.setColor(Color.WHITE);
-        dataset.setCircleColor(Color.TRANSPARENT);
-        dataset.setCircleHoleColor(Color.WHITE);
-        dataset.setHighlightEnabled(true);
-        data.addDataSet(dataset);
+        LineDataSet dataset0 = new LineDataSet(entries0, "aktywne");
+        dataset0.setValueTextColor(Color.WHITE);
+        dataset0.setColor(Color.YELLOW);
+        dataset0.setCircleColor(Color.TRANSPARENT);
+        dataset0.setCircleHoleColor(Color.YELLOW);
+        dataset0.setHighlightEnabled(true);
+        data.addDataSet(dataset0);
 
-        // dataset 2
+        // dataset all cases
+        String[] mapKeys1 = Arrays.copyOf(hashMapCases.keySet().toArray(), hashMapCases.keySet().toArray().length, String[].class);
+        ArrayList<Entry> entries1 = new ArrayList<>();
+        for(int i = 0; i< mapKeys1.length; i++) {
+            entries1.add(new Entry(i,hashMapCases.get(mapKeys1[i])));
+        }
+        LineDataSet dataset1 = new LineDataSet(entries1, "zachorowania");
+        dataset1.setValueTextColor(Color.WHITE);
+        dataset1.setColor(Color.WHITE);
+        dataset1.setCircleColor(Color.TRANSPARENT);
+        dataset1.setCircleHoleColor(Color.WHITE);
+        dataset1.setHighlightEnabled(true);
+        data.addDataSet(dataset1);
+
+        // dataset deaths
         String[] mapKeys2 = Arrays.copyOf(hashMapDeaths.keySet().toArray(), hashMapDeaths.keySet().toArray().length, String[].class);
         ArrayList<Entry> entries2 = new ArrayList<>();
         for(int i=0; i<mapKeys2.length; i++) {
             entries2.add(new Entry(i,hashMapDeaths.get(mapKeys2[i])));
         }
-        LineDataSet dataset2 = new LineDataSet(entries2, "zgony");
+        LineDataSet dataset2 = new LineDataSet(entries2, "śmiertelne");
         dataset2.setValueTextColor(Color.WHITE);
         dataset2.setColor(Color.RED);
         dataset2.setCircleColor(Color.TRANSPARENT);
@@ -135,13 +149,13 @@ public class HistoricalDataPresenter implements HistoricalDataPresenterIF {
         dataset2.setHighlightEnabled(true);
         data.addDataSet(dataset2);
 
-        // dataset 3
+        // dataset cured cases
         String[] mapKeys3 = Arrays.copyOf(hashMapCured.keySet().toArray(), hashMapCured.keySet().toArray().length, String[].class);
         ArrayList<Entry> entries3 = new ArrayList<>();
         for(int i=0; i<mapKeys3.length; i++) {
             entries3.add(new Entry(i,hashMapCured.get(mapKeys3[i])));
         }
-        LineDataSet dataset3 = new LineDataSet(entries3, "wyleczenia");
+        LineDataSet dataset3 = new LineDataSet(entries3, "wyleczone");
         dataset3.setValueTextColor(Color.WHITE);
         dataset3.setColor(Color.GREEN);
         dataset3.setCircleColor(Color.TRANSPARENT);
@@ -158,7 +172,7 @@ public class HistoricalDataPresenter implements HistoricalDataPresenterIF {
         BarData data = new BarData();
         data.setBarWidth(0.3f);
 
-        // dataset 1
+        // dataset daily cases
         String[] mapKeys = Arrays.copyOf(hashMapCases.keySet().toArray(), hashMapCases.keySet().toArray().length, String[].class);
         ArrayList<BarEntry> entries = new ArrayList<>();
         for(int i=0; i<mapKeys.length; i++) {
@@ -170,25 +184,25 @@ public class HistoricalDataPresenter implements HistoricalDataPresenterIF {
         dataset.setHighlightEnabled(true);
         data.addDataSet(dataset);
 
-        // dataset 2
+        // dataset daily deaths
         String[] mapKeys2 = Arrays.copyOf(hashMapDeaths.keySet().toArray(), hashMapDeaths.keySet().toArray().length, String[].class);
         ArrayList<BarEntry> entries2 = new ArrayList<>();
         for(int i=0; i<mapKeys2.length; i++) {
             entries2.add(new BarEntry(i, hashMapDeaths.get(mapKeys2[i])));
         }
-        BarDataSet dataset2 = new BarDataSet(entries2, "zgony");
+        BarDataSet dataset2 = new BarDataSet(entries2, "śmiertelne");
         dataset2.setValueTextColor(Color.WHITE);
         dataset2.setColor(Color.RED);
         dataset2.setHighlightEnabled(true);
         data.addDataSet(dataset2);
 
-        // dataset 3
+        // dataset daily cured cases
         String[] mapKeys3 = Arrays.copyOf(hashMapCured.keySet().toArray(), hashMapCured.keySet().toArray().length, String[].class);
         ArrayList<BarEntry> entries3 = new ArrayList<>();
         for(int i=0; i<mapKeys3.length; i++) {
             entries3.add(new BarEntry(i, hashMapCured.get(mapKeys3[i])));
         }
-        BarDataSet dataset3 = new BarDataSet(entries3, "wyleczenia");
+        BarDataSet dataset3 = new BarDataSet(entries3, "wyleczone");
         dataset3.setValueTextColor(Color.WHITE);
         dataset3.setColor(Color.GREEN);
         dataset3.setHighlightEnabled(true);

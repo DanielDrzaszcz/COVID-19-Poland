@@ -1,11 +1,8 @@
 package com.dandrzas.covid19poland.data.domain;
 
 import org.junit.Test;
-
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+
 
 import static org.junit.Assert.*;
 

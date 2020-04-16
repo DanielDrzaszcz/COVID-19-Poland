@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -82,23 +83,23 @@ public class HistoricalDataFragment extends Fragment implements HistoricalDataIF
 
     @Override
     public void setLineChartData(LineData lineChartData, String[] labelsData) {
-        lineBarConfig(lineChartData, labelsData);
+        lineChartConfig(lineChartData, labelsData);
     }
 
     @Override
     public void setBarChartData(BarData barChartData, String[] labelsData) {
-        chartBarConfig(barChartData, labelsData);
+        barChartConfig(barChartData, labelsData);
     }
 
     @Override
     public void setLineChartDataAnimated(LineData lineChartData, String[] labelsData) {
-        lineBarConfig(lineChartData, labelsData);
+        lineChartConfig(lineChartData, labelsData);
         chartLine.animateY(1000);
     }
 
     @Override
     public void setBarChartDataAnimated(BarData barChartData, String[] labelsData) {
-        chartBarConfig(barChartData, labelsData);
+        barChartConfig(barChartData, labelsData);
         chartBar.animateY(1000);
     }
 
@@ -147,7 +148,7 @@ public class HistoricalDataFragment extends Fragment implements HistoricalDataIF
         builder.create().show();
     }
 
-    private void lineBarConfig(LineData lineChartData, String[] labelsData){
+    private void lineChartConfig(LineData lineChartData, String[] labelsData){
         XAxis xAxis = chartLine.getXAxis();
         YAxis yAxisLeft = chartLine.getAxisLeft();
         YAxis yAxisRight = chartLine.getAxisRight();
@@ -166,6 +167,7 @@ public class HistoricalDataFragment extends Fragment implements HistoricalDataIF
         // legend config
         legend.setEnabled(true);
         legend.setTextColor(Color.WHITE);
+        legend.setXOffset(0);
 
         // chart view config
         chartLine.setData(lineChartData);
@@ -180,6 +182,7 @@ public class HistoricalDataFragment extends Fragment implements HistoricalDataIF
         });
         mv.setChartView(chartLine); // For bounds control
         chartLine.setMarker(mv); // Set the marker to the chart
+        chartLine.setExtraBottomOffset(3);
 
         // x axis config
         xAxis.setDrawLabels(true);
@@ -197,7 +200,7 @@ public class HistoricalDataFragment extends Fragment implements HistoricalDataIF
 
     }
 
-    private void chartBarConfig(BarData barChartData, String[] labelsDate){
+    private void barChartConfig(BarData barChartData, String[] labelsDate){
         float groupSpace = 0.1f;
         float barSpace = 0f;
         XAxis xAxis = chartBar.getXAxis();
@@ -222,6 +225,7 @@ public class HistoricalDataFragment extends Fragment implements HistoricalDataIF
         // legend config
         legend.setEnabled(true);
         legend.setTextColor(Color.WHITE);
+        legend.setXOffset(0);
 
         // chart view config
         chartBar.setData(barChartData);
@@ -237,6 +241,7 @@ public class HistoricalDataFragment extends Fragment implements HistoricalDataIF
         });
         mv2.setChartView(chartBar); // For bounds control
         chartBar.setMarker(mv2); // Set the marker to the chart
+        chartBar.setExtraBottomOffset(3);
 
         // x axis config
         xAxis.setDrawLabels(true);

@@ -1,8 +1,6 @@
 package com.dandrzas.covid19poland.data.domain;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 
 public class Covid19TodayData {

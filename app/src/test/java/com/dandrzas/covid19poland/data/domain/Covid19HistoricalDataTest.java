@@ -18,10 +18,10 @@ public class Covid19HistoricalDataTest {
     private final Integer[] deathsDaily = {15, 13, 22, 30, 15, 7, 27, 24};
     private final Integer[] curedAll= {116, 134, 162, 191, 222, 284, 318, 375, 439};
     private final Integer[] curedDaily = {18, 28, 29, 31, 62, 34, 57, 64};
+    private final Integer[] activeAll = {2359, 2718, 3114, 3307, 3721, 3955, 4349, 4622, 4904};
     private HashMap<String, Integer> casesHistoryAll = new LinkedHashMap<>();
     private HashMap<String, Integer> deathsHistoryAll = new LinkedHashMap<>();
     private HashMap<String, Integer> curedHistoryAll = new LinkedHashMap<>();
-
 
     @Test
     public void setAndGetTest(){
@@ -60,10 +60,12 @@ public class Covid19HistoricalDataTest {
         assertArrayEquals(deathsDaily, dataDeathsDaily);
         assertArrayEquals(deathsAll, dataDeathsAll);
 
-
         Integer [] dataCuredAll = Arrays.copyOf(data.getHistoryCuredAll().values().toArray(), data.getHistoryCuredAll().values().toArray().length, Integer[].class);
         Integer [] dataCuredDaily = Arrays.copyOf(data.getHistoryCuredDaily().values().toArray(), data.getHistoryCuredDaily().values().toArray().length, Integer[].class);
         assertArrayEquals(curedDaily, dataCuredDaily);
         assertArrayEquals(curedAll, dataCuredAll);
+
+        Integer [] dataActiveAll = Arrays.copyOf(data.getHistoryActiveAll().values().toArray(), data.getHistoryActiveAll().values().toArray().length, Integer[].class);
+        assertArrayEquals(activeAll, dataActiveAll);
     }
 }
