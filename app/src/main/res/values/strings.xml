@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">COVID-19 Polska</string>
-    <string name="all_cases">Przypadki wszystkie</string>
-    <string name="today_cases">Przypadki dzisiaj</string>
+    <string name="all_cases">Przypadki zachorowań wszystkie</string>
+    <string name="today_cases">Przypadki zachorowań dzisiaj</string>
+    <string name="active_cases">Przypadki zachorowań aktywne</string>
     <string name="all_cured">Przypadki wyleczone wszystkie</string>
     <string name="all_deaths">Przypadki śmiertelne wszystkie</string>
     <string name="today_deaths">Przypadki śmiertelne dzisiaj</string>

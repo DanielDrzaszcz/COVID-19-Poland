@@ -54,32 +54,33 @@ public class RemoteDataSource implements RemoteDataSourceIF {
 
         return  Observable.create(emitter -> {
 
-                // Request a response from the provided URLTodayData.
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URLTodayData, null,
-                        (response) -> {
-                            VolleyLog.d(response.toString());
-                            try {
+            // Request a response from the provided URLTodayData.
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URLTodayData, null,
+                    (response) -> {
+                        VolleyLog.d(response.toString());
+                        try {
 
-                                if (dataToday == null) dataToday = new Covid19TodayData();
-                                dataToday.setCasesAll((int)response.get("cases"));
-                                dataToday.setCasesToday((int)response.get("todayCases"));
-                                dataToday.setCuredAll((int)response.get("recovered"));
-                                dataToday.setDeathsAll((int)response.get("deaths"));
-                                dataToday.setDeathsToday((int)response.get("todayDeaths"));
-                                dataToday.setUpdatedTime(new Date((long)response.get("updated")));
-                                emitter.onNext(dataToday);
-                                emitter.onComplete();
+                            if (dataToday == null) dataToday = new Covid19TodayData();
+                            dataToday.setCasesAll((int)response.get("cases"));
+                            dataToday.setCasesToday((int)response.get("todayCases"));
+                            dataToday.setCasesActive((int)response.get("active"));
+                            dataToday.setCuredAll((int)response.get("recovered"));
+                            dataToday.setDeathsAll((int)response.get("deaths"));
+                            dataToday.setDeathsToday((int)response.get("todayDeaths"));
+                            dataToday.setUpdatedTime(new Date((long)response.get("updated")));
+                            emitter.onNext(dataToday);
+                            emitter.onComplete();
 
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                dataToday = null;
-                                emitter.onError(e);
-                            }
-                        },
-                        (error) -> {
-                            emitter.onError(error);
-                        });
-                queue.add(jsonObjectRequest);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataToday = null;
+                            emitter.onError(e);
+                        }
+                    },
+                    (error) -> {
+                        emitter.onError(error);
+                    });
+            queue.add(jsonObjectRequest);
 
         });
     }

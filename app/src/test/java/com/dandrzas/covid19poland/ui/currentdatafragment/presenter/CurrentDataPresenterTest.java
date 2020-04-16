@@ -27,7 +27,8 @@ import static org.mockito.Mockito.when;
 public class CurrentDataPresenterTest {
 
     private final Integer TEST_ALL_CASES = 9999;
-    private final Integer TEST_TODAY_CASES = 54;
+    private final Integer TEST_TODAY_CASES = 344;
+    private final Integer TEST_ACTIVE_CASES = 8994;
     private final Integer TEST_ALL_CURED = 54;
     private final Integer TEST_ALL_DEATHS = 65;
     private final Integer TEST_TODAY_DEATHS = 5;
@@ -46,14 +47,16 @@ public class CurrentDataPresenterTest {
         presenter = new CurrentDataPresenter(viewMock, remoteDataSourceMock);
         data.setCasesAll(TEST_ALL_CASES);
         data.setCasesToday(TEST_TODAY_CASES);
+        data.setCasesActive(TEST_ACTIVE_CASES);
         data.setCuredAll(TEST_ALL_CURED);
         data.setDeathsAll(TEST_ALL_DEATHS);
         data.setDeathsToday(TEST_TODAY_DEATHS);
         dataList.add(0, data.getCasesAll());
         dataList.add(1, data.getCasesToday());
-        dataList.add(2, data.getCuredAll());
-        dataList.add(3, data.getDeathsAll());
-        dataList.add(4, data.getDeathsToday());
+        dataList.add(2, data.getCasesActive());
+        dataList.add(3, data.getCuredAll());
+        dataList.add(4, data.getDeathsAll());
+        dataList.add(5, data.getDeathsToday());
     }
 
     @Test

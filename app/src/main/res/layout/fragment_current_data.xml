@@ -100,11 +100,12 @@
         app:layout_constraintVertical_bias="0.3"
         android:visibility="invisible"/>
 
+
     <TextView
         android:id="@+id/text_view_3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/all_cured"
+        android:text="@string/active_cases"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/counter_name_size"
         app:layout_constraintBottom_toTopOf="@+id/text_view_4"
@@ -116,11 +117,11 @@
         app:layout_constraintVertical_bias="0.400" />
 
     <TextView
-        android:id="@+id/text_view_all_cured_counter"
+        android:id="@+id/text_view_active_cases_counter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        android:textColor="@color/colorGreen"
+        android:textColor="@color/colorRed"
         android:textSize="@dimen/counter_value_size"
         app:layout_constraintBottom_toTopOf="@+id/text_view_4"
         app:layout_constraintEnd_toEndOf="parent"
@@ -144,32 +145,35 @@
         app:layout_constraintVertical_bias="0.321"
         android:visibility="invisible"/>
 
+
+
     <TextView
         android:id="@+id/text_view_4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/all_deaths"
+        android:text="@string/all_cured"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/counter_name_size"
+        app:layout_constraintBottom_toTopOf="@+id/text_view_5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_3"
+        app:layout_constraintVertical_bias="0.400" />
+
+    <TextView
+        android:id="@+id/text_view_all_cured_counter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorGreen"
+        android:textSize="@dimen/counter_value_size"
         app:layout_constraintBottom_toTopOf="@+id/text_view_5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_view_3"
-        app:layout_constraintVertical_bias="0.600" />
-
-    <TextView
-        android:id="@+id/text_view_all_deaths_counter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textColor="@color/colorRed"
-        android:textSize="@dimen/counter_value_size"
-        app:layout_constraintBottom_toTopOf="@+id/text_view_5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_view_4"
         app:layout_constraintVertical_bias="0.25" />
@@ -181,17 +185,60 @@
         android:indeterminate="true"
         app:layout_constraintBottom_toTopOf="@+id/text_view_5"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_view_4"
-        app:layout_constraintVertical_bias="0.3"
+        app:layout_constraintVertical_bias="0.321"
         android:visibility="invisible"/>
 
     <TextView
         android:id="@+id/text_view_5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="110dp"
+        android:text="@string/all_deaths"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/counter_name_size"
+        app:layout_constraintBottom_toTopOf="@+id/text_view_6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_4"
+        app:layout_constraintVertical_bias="0.600" />
+
+    <TextView
+        android:id="@+id/text_view_all_deaths_counter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorRed"
+        android:textSize="@dimen/counter_value_size"
+        app:layout_constraintBottom_toTopOf="@+id/text_view_6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_5"
+        app:layout_constraintVertical_bias="0.25" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toTopOf="@+id/text_view_6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_5"
+        app:layout_constraintVertical_bias="0.3"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/text_view_6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="100dp"
         android:text="@string/today_deaths"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/counter_name_size"
@@ -201,7 +248,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_view_4"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_5"
         app:layout_constraintVertical_bias="0.5" />
 
     <TextView
@@ -217,10 +264,10 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_view_5" />
+        app:layout_constraintTop_toBottomOf="@+id/text_view_6" />
 
     <ProgressBar
-        android:id="@+id/progress_bar_5"
+        android:id="@+id/progress_bar_6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -228,7 +275,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_view_5"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_6"
         android:visibility="invisible" />
 
     <TextView

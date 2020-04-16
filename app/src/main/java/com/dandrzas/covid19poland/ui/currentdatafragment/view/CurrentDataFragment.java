@@ -22,7 +22,6 @@ import com.dandrzas.covid19poland.ui.currentdatafragment.presenter.CurrentDataPr
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -36,9 +35,9 @@ import io.reactivex.schedulers.Schedulers;
 public class CurrentDataFragment extends Fragment implements CurrentDataFragmentIF {
 
     private CurrentDataPresenter presenter;
-    @BindViews({R.id.text_view_all_cases_counter, R.id.text_view_today_cases_counter, R.id.text_view_all_cured_counter, R.id.text_view_all_deaths_counter, R.id.text_view_today_deaths_counter})
+    @BindViews({R.id.text_view_all_cases_counter, R.id.text_view_today_cases_counter, R.id.text_view_active_cases_counter, R.id.text_view_all_cured_counter, R.id.text_view_all_deaths_counter, R.id.text_view_today_deaths_counter})
     List<TextView> textViewsCounters;
-    @BindViews({R.id.progress_bar_1, R.id.progress_bar_2, R.id.progress_bar_3, R.id.progress_bar_4, R.id.progress_bar_5})
+    @BindViews({R.id.progress_bar_1, R.id.progress_bar_2, R.id.progress_bar_3, R.id.progress_bar_4, R.id.progress_bar_5, R.id.progress_bar_6})
     List<ProgressBar> progressBars;
     private float coutersTextSize;
     @BindView(R.id.current_data_fragment) View countersFragmentView;
@@ -68,7 +67,7 @@ public class CurrentDataFragment extends Fragment implements CurrentDataFragment
 
     @Override
     public void setCountersData(ArrayList<Integer> countersData, Date updateTime) {
-        textViewsCounters.get(2).setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorGreen, null));
+        textViewsCounters.get(3).setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorGreen, null));
         for(int i=0; i<countersData.size(); i++){
             textViewsCounters.get(i).setTextSize(TypedValue.COMPLEX_UNIT_PX, coutersTextSize);
             textViewsCounters.get(i).setText(Integer.toString(countersData.get(i)));
@@ -79,7 +78,7 @@ public class CurrentDataFragment extends Fragment implements CurrentDataFragment
 
     @Override
     public void setCountersDataAnimated(ArrayList<Integer> countersData, Date updateTime) {
-        textViewsCounters.get(2).setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorGreen, null));
+        textViewsCounters.get(3).setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorGreen, null));
         for(int i=0; i<countersData.size(); i++){
             textViewsCounters.get(i).setTextSize(TypedValue.COMPLEX_UNIT_PX, coutersTextSize);
             animateCounter(Integer.valueOf(countersData.get(i)), i);
@@ -97,7 +96,7 @@ public class CurrentDataFragment extends Fragment implements CurrentDataFragment
 
     @Override
     public void setCountersError() {
-        textViewsCounters.get(2).setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorRed, null));
+        textViewsCounters.get(3).setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorRed, null));
         for (TextView counterData : textViewsCounters) {
             textViewsCounters.get(textViewsCounters.indexOf(counterData)).setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) (coutersTextSize * 0.4));
             textViewsCounters.get(textViewsCounters.indexOf(counterData)).setText(R.string.download_error);

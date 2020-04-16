@@ -38,9 +38,10 @@ public class CurrentDataPresenter implements CurrentDataPresenterIF {
                             ArrayList<Integer> countersData = new ArrayList<>();
                             countersData.add(0, covid19TodayData.getCasesAll());
                             countersData.add(1, covid19TodayData.getCasesToday());
-                            countersData.add(2, covid19TodayData.getCuredAll());
-                            countersData.add(3, covid19TodayData.getDeathsAll());
-                            countersData.add(4, covid19TodayData.getDeathsToday());
+                            countersData.add(2, covid19TodayData.getCasesActive());
+                            countersData.add(3, covid19TodayData.getCuredAll());
+                            countersData.add(4, covid19TodayData.getDeathsAll());
+                            countersData.add(5, covid19TodayData.getDeathsToday());
                             view.setProgressBarsVisibility(false);
                             view.setCountersDataAnimated(countersData, covid19TodayData.getUpdatedTime());
                         }
@@ -68,9 +69,10 @@ public class CurrentDataPresenter implements CurrentDataPresenterIF {
             ArrayList<Integer> countersData = new ArrayList<>();
             countersData.add(0, data.getCasesAll());
             countersData.add(1, data.getCasesToday());
-            countersData.add(2, data.getCuredAll());
-            countersData.add(3, data.getDeathsAll());
-            countersData.add(4, data.getDeathsToday());
+            countersData.add(2, data.getCasesActive());
+            countersData.add(3, data.getCuredAll());
+            countersData.add(4, data.getDeathsAll());
+            countersData.add(5, data.getDeathsToday());
             view.setCountersData(countersData, data.getUpdatedTime());
         }
         else{

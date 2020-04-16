@@ -8,6 +8,7 @@ import java.util.Locale;
 public class Covid19TodayData {
 
     private int casesAll;
+    private int casesActive;
     private int casesToday;
     private int curedAll;
     private int deathsAll;
@@ -23,6 +24,14 @@ public class Covid19TodayData {
 
     public void setCasesAll(int casesAll) {
         this.casesAll = casesAll;
+    }
+
+    public int getCasesActive() {
+        return casesActive;
+    }
+
+    public void setCasesActive(int casesActive) {
+        this.casesActive = casesActive;
     }
 
     public int getCasesToday() {
