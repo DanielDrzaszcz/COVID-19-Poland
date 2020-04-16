@@ -115,6 +115,17 @@
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="0.95"
         android:layout_marginBottom="40dp"/>
+    <TextView
+        android:id="@+id/text_view_datasource_history_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/history_data_source"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/counters_info_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="4dp"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
