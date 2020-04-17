@@ -19,7 +19,7 @@ import io.reactivex.Observable;
 public class RemoteDataSource implements RemoteDataSourceIF {
     private static RemoteDataSource ourInstance = new RemoteDataSource();
     private static RequestQueue queue;
-    private static final String URLTodayData = "https://corona.lmao.ninja/countries/Poland";
+    private static final String URLTodayData = "https://corona.lmao.ninja/v2/countries/Poland";
     private final String URLHistoricalData = "https://corona.lmao.ninja/v2/historical/Poland";
     private static Covid19TodayData dataToday;
     private static Covid19HistoricalData dataHistorical;
