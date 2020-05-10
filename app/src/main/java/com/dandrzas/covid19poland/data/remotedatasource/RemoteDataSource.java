@@ -10,17 +10,23 @@ import com.dandrzas.covid19poland.data.domain.Covid19HistoricalData;
 import com.dandrzas.covid19poland.data.domain.Covid19TodayData;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.concurrent.TimeUnit;
+
 import io.reactivex.Observable;
 
 public class RemoteDataSource implements RemoteDataSourceIF {
     private static RemoteDataSource ourInstance = new RemoteDataSource();
     private static RequestQueue queue;
     private static final String URLTodayData = "https://corona.lmao.ninja/v2/countries/Poland";
-    private final String URLHistoricalData = "https://corona.lmao.ninja/v2/historical/Poland";
+    private String URLHistoricalData = "https://corona.lmao.ninja/v2/historical/Poland?lastdays=";
     private static Covid19TodayData dataToday;
     private static Covid19HistoricalData dataHistorical;
 
@@ -79,6 +85,18 @@ public class RemoteDataSource implements RemoteDataSourceIF {
 
     @Override
     public Observable<Covid19HistoricalData> downloadHistoricalData() {
+        SimpleDateFormat myFormat = new SimpleDateFormat("dd MM yyyy");
+        String dateStartString = "03 03 2020";
+        Date dateStart = null;
+        try {
+            dateStart = myFormat.parse(dateStartString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Date dateToday = Calendar.getInstance().getTime();
+        long dateDiff = dateToday.getTime() - dateStart.getTime();
+        long daysFromStart = TimeUnit.DAYS.convert(dateDiff, TimeUnit.MILLISECONDS);
+        URLHistoricalData += daysFromStart;
 
         return Observable.create((emitter -> {
 

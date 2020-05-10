@@ -127,7 +127,7 @@ public class HistoricalDataPresenter implements HistoricalDataPresenterIF {
         for(int i = 0; i< mapKeys1.length; i++) {
             entries1.add(new Entry(i,hashMapCases.get(mapKeys1[i])));
         }
-        LineDataSet dataset1 = new LineDataSet(entries1, "zachorowania");
+        LineDataSet dataset1 = new LineDataSet(entries1, "zakażenia");
         dataset1.setValueTextColor(Color.WHITE);
         dataset1.setColor(Color.WHITE);
         dataset1.setCircleColor(Color.TRANSPARENT);
@@ -178,7 +178,7 @@ public class HistoricalDataPresenter implements HistoricalDataPresenterIF {
         for(int i=0; i<mapKeys.length; i++) {
             entries.add(new BarEntry(i, hashMapCases.get(mapKeys[i])));
         }
-        BarDataSet dataset = new BarDataSet(entries, "zachorowania");
+        BarDataSet dataset = new BarDataSet(entries, "zakażenia");
         dataset.setValueTextColor(Color.WHITE);
         dataset.setColor(Color.WHITE);
         dataset.setHighlightEnabled(true);
