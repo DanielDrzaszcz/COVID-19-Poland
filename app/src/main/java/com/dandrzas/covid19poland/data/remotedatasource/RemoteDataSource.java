@@ -96,12 +96,12 @@ public class RemoteDataSource implements RemoteDataSourceIF {
         Date dateToday = Calendar.getInstance().getTime();
         long dateDiff = dateToday.getTime() - dateStart.getTime();
         long daysFromStart = TimeUnit.DAYS.convert(dateDiff, TimeUnit.MILLISECONDS);
-        URLHistoricalData += daysFromStart;
+        String URLHistoricalDataWithDays = URLHistoricalData + daysFromStart;
 
         return Observable.create((emitter -> {
 
             // Request a response from the provided URLHistoricalData.
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URLHistoricalData, null,
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URLHistoricalDataWithDays, null,
                     (response) -> {
                         VolleyLog.d(response.toString());
                         try {
